@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_box" >
     
     <TextView
         android:id="@+id/device_item_textName"
@@ -10,16 +11,26 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Device Name"
+        android:padding="8dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/device_item_textName"
+        android:background="#33b5e5" 
+        />
+    
     <TextView
         android:id="@+id/device_item_textIp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/device_item_textName"
+        android:layout_below="@+id/divider"
         android:text="192.168.1.5"
-        android:textAppearance="?android:attr/textAppearanceSmall" />    
+        android:padding="2dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <TextView
         android:id="@+id/device_item_textMac"
@@ -28,6 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/device_item_textIp"
         android:text="12:23:34:45:56.67"
+        android:padding="2dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />    
 
 </RelativeLayout>
