@@ -5,7 +5,7 @@
     android:background="@drawable/bg_box" >
     
     <TextView
-        android:id="@+id/device_item_textName"
+        android:id="@+id/device_item_text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -15,29 +15,28 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/device_item_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/device_item_textName"
-        android:background="#33b5e5" 
-        />
+        android:layout_below="@id/device_item_text_name"
+        android:background="#33b5e5" />
     
     <TextView
-        android:id="@+id/device_item_textIp"
+        android:id="@+id/device_item_txt_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/divider"
+        android:layout_below="@+id/device_item_divider"
         android:text="192.168.1.5"
         android:padding="2dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <TextView
-        android:id="@+id/device_item_textMac"
+        android:id="@+id/device_item_txt_mac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/device_item_textIp"
+        android:layout_below="@+id/device_item_txt_ip"
         android:text="12:23:34:45:56.67"
         android:padding="2dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />    

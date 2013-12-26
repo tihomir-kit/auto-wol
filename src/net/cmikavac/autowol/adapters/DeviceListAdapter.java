@@ -32,13 +32,13 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 	
 		Device device = mDevices.get(position);
 		
-		TextView nameText = (TextView)itemView.findViewById(R.id.device_item_textName);
+		TextView nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
 		nameText.setText(device.getName());
 		
-		TextView ipText = (TextView)itemView.findViewById(R.id.device_item_textIp);
+		TextView ipText = (TextView)itemView.findViewById(R.id.device_item_txt_ip);
 		ipText.setText(device.getIp());
 		
-		TextView macText = (TextView)itemView.findViewById(R.id.device_item_textMac);
+		TextView macText = (TextView)itemView.findViewById(R.id.device_item_txt_mac);
 		macText.setText(device.getMac());
 		
 		return itemView;
