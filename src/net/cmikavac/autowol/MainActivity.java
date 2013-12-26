@@ -15,14 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-	private List<Device> devices = new ArrayList<Device>();
+	private List<Device> mDevices = new ArrayList<Device>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		devices = Preferences.getStoredDevices();
+		mDevices = Preferences.getStoredDevices();
 		populateListView();
 	}
 
@@ -34,8 +34,8 @@ public class MainActivity extends Activity {
 	}
 	
 	private void populateListView() {
-		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, devices);
-		ListView list = (ListView) findViewById(R.id.deviceListView);
+		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
+		ListView list = (ListView) findViewById(R.id.device_list_view);
 		list.setAdapter(adapter);		
 	}
 }

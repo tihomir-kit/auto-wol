@@ -1,38 +1,38 @@
 package net.cmikavac.autowol.models;
 
 public class Device {
-	private String name;
-	private String ip;
-	private String mac;
+	private String mName;
+	private String mIp;
+	private String mMac;
 	
 	public Device(String name, String ip, String mac) {
 		super();
-		this.name = name;
-		this.ip = ip;
-		this.mac = mac;
+		this.mName = name;
+		this.mIp = ip;
+		this.mMac = mac;
 	}
 
 	public String getName() {
-		return name;
+		return mName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.mName = name;
 	}
 
 	public String getIp() {
-		return ip;
+		return mIp;
 	}
 
 	public void setIp(String ip) {
-		this.ip = ip;
+		this.mIp = ip;
 	}
 
 	public String getMac() {
-		return mac;
+		return mMac;
 	}
 
 	public void setMac(String mac) {
-		this.mac = mac;
+		this.mMac = mac;
 	}
 }
