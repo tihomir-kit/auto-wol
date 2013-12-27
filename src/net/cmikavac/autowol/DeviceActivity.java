@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DeviceActivity extends Activity {
 	private Device mDevice = null;
@@ -19,6 +20,8 @@ public class DeviceActivity extends Activity {
 		
 		setDevice();
 		setViewValues();
+		
+		Toast.makeText(DeviceActivity.this, mDevice.getName(), Toast.LENGTH_SHORT).show();
 	}	
 
 	@Override
