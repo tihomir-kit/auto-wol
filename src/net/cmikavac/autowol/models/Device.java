@@ -1,15 +1,29 @@
 package net.cmikavac.autowol.models;
 
-public class Device {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Device implements Serializable {
 	private String mName;
 	private String mIp;
 	private String mMac;
+	
+	public Device() {
+		super();
+		createNewDevice();
+	}
 	
 	public Device(String name, String ip, String mac) {
 		super();
 		this.mName = name;
 		this.mIp = ip;
 		this.mMac = mac;
+	}
+	
+	private void createNewDevice() {
+		this.mName = "";
+		this.mIp = "";
+		this.mMac = "";				
 	}
 
 	public String getName() {

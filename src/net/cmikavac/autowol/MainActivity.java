@@ -42,15 +42,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch(item.getItemId()) {
 			case R.id.action_new:
-				Intent k = new Intent(MainActivity.this, DeviceActivity.class);
-				startActivity(k);
+				Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
+				startActivity(intent);
 				break;
 		}
 		return true;
@@ -58,19 +56,21 @@ public class MainActivity extends Activity {
 
 	private void populateListView() {
 		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
-		ListView list = (ListView) findViewById(R.id.device_list_view);
+		ListView list = (ListView)findViewById(R.id.device_list_view);
 		list.setAdapter(adapter);		
 	}
+	
+	
+	
 	
 	private void registerClickCallback() {
 		ListView list = (ListView)findViewById(R.id.device_list_view);
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-				
-				Device clickedDevice = mDevices.get(position);
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {				
+				Device device = mDevices.get(position);
 				String message = "You clicked position " + position
-						+ " which is device " + clickedDevice.getName();
+						+ " which is device " + device.getName();
 				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 			}						
 		});		
@@ -81,12 +81,12 @@ public class MainActivity extends Activity {
 		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-				showDialog();
+				showDialog(position);
 				return false;
 			}
 		});
 	}	
-	
+
 	private void showDialog() {
 		final CharSequence[] items = {"Wake", "Edit", "Delete"};
 
@@ -94,7 +94,11 @@ public class MainActivity extends Activity {
 		builder.setTitle("Choose action");
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
+		    	//Device device = mDevices.get(position);
 		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		        Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
+		        //intent.putExtra("deviceObject", device);
+		        startActivity(intent);
 		    }
 		});
 		AlertDialog alert = builder.create();
