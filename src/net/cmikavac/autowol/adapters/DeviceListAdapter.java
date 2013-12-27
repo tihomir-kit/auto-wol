@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,16 +37,16 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		
 		if (itemView == null) {
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			itemView = inflater.inflate(R.layout.device_item_view, parent, false);						
-			itemHolder = setHolderItemViews(itemView);			
+			itemView = inflater.inflate(R.layout.device_item_view, parent, false);
+			itemHolder = setHolderItemViews(itemView);
 			itemView.setTag(itemHolder);
 		} else {
 			itemHolder = (ItemHolder)itemView.getTag();
 		}
 
 		setItemTextValues(position, itemHolder);
-		registerOnClickListener(position, itemView);		
-		registerOnLongClickListener(position, itemView);		
+		registerOnClickListener(position, itemView);
+		registerOnLongClickListener(position, itemView);
 
 		return itemView;
 	}
@@ -77,16 +78,18 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 			}
 		});
 	}
-	
+
 	private void registerOnLongClickListener(final int position, View itemView) {
 		itemView.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
+				Vibrator vibe = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
+				vibe.vibrate(50); 
 				showDialog(position);
 				return false;
 			}
 		});
-	}	
+	}
 	
 	private void showDialog(final int position) {
 		final CharSequence[] dialogItems = {"Wake", "Edit", "Delete"};
@@ -94,17 +97,17 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 		builder.setTitle("Choose action");
 		builder.setItems(dialogItems, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int item) {
-		    	Device device = mDevices.get(position);
+			public void onClick(DialogInterface dialog, int item) {
+				Device device = mDevices.get(position);
 				Intent intent = new Intent(mContext, DeviceActivity.class);
 				intent.putExtra("deviceObject", device);
-				mContext.startActivity(intent);		
-		    }
+				mContext.startActivity(intent);
+			}
 		});
-		
+
 		AlertDialog alert = builder.create();
 		alert.show();
-	}	
+	}
 
 	private class ItemHolder {
 		TextView nameText;

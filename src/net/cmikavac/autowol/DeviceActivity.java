@@ -1,14 +1,14 @@
 package net.cmikavac.autowol;
 
 import net.cmikavac.autowol.models.Device;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.EditText;
 
 public class DeviceActivity extends Activity {
 	private Device mDevice = null;
@@ -20,21 +20,19 @@ public class DeviceActivity extends Activity {
 		
 		setDevice();
 		setViewValues();
-		
-		Toast.makeText(DeviceActivity.this, mDevice.getName(), Toast.LENGTH_SHORT).show();
-	}	
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
+		menu.findItem(R.id.action_new).setVisible(false);
+
 		return true;
-	}	
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -55,10 +53,15 @@ public class DeviceActivity extends Activity {
 			mDevice = new Device();
 		else
 			mDevice = device;
-	}	
+	}
 	
 	private void setViewValues() {
-		TextView nameText = (TextView)findViewById(R.id.txt_name);
-		nameText.setText(mDevice.getName());		
-	}	
+		EditText nameText = (EditText)findViewById(R.id.edit_name);
+		EditText ipText = (EditText)findViewById(R.id.edit_ip);
+		EditText macText = (EditText)findViewById(R.id.edit_mac);
+		
+		nameText.setText(mDevice.getName());
+		ipText.setText(mDevice.getIp());
+		macText.setText(mDevice.getMac());
+	}
 }
