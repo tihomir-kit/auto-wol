@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
 		mDevices = Preferences.getStoredDevices();
 		populateListView();
 		registerClickCallback();
-		registerLongClickCallback();
+		registerLongClickCallback();		
 	}
 
 	@Override
@@ -40,6 +42,20 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch(item.getItemId()) {
+			case R.id.action_new:
+				Intent k = new Intent(MainActivity.this, DeviceActivity.class);
+				startActivity(k);
+				break;
+		}
+		return true;
+	}
+
 	private void populateListView() {
 		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
 		ListView list = (ListView) findViewById(R.id.device_list_view);
