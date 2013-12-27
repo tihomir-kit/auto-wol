@@ -3,16 +3,14 @@ package net.cmikavac.autowol;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cmikavac.autowol.R;
-import net.cmikavac.autowol.models.*;
-import net.cmikavac.autowol.data.*;
-import net.cmikavac.autowol.adapters.*;
-
-import android.os.Bundle;
+import net.cmikavac.autowol.adapters.DeviceListAdapter;
+import net.cmikavac.autowol.data.Preferences;
+import net.cmikavac.autowol.models.Device;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +29,7 @@ public class MainActivity extends Activity {
 		
 		mDevices = Preferences.getStoredDevices();
 		populateListView();
-		registerClickCallback();
+	//	registerClickCallback();
 		registerLongClickCallback();		
 	}
 
@@ -62,20 +60,20 @@ public class MainActivity extends Activity {
 	
 	
 	
-	
-	private void registerClickCallback() {
-		ListView list = (ListView)findViewById(R.id.device_list_view);
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {				
-				Device device = mDevices.get(position);
-				String message = "You clicked position " + position
-						+ " which is device " + device.getName();
-				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-			}						
-		});		
-	}	
-	
+//	
+//	private void registerClickCallback() {
+//		ListView list = (ListView)findViewById(R.id.device_list_view);
+//		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {				
+//				Device device = mDevices.get(position);
+//				String message = "You clicked position " + position
+//						+ " which is device " + device.getName();
+//				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+//			}						
+//		});		
+//	}	
+//	
 	private void registerLongClickCallback() {
 		ListView list = (ListView)findViewById(R.id.device_list_view);
 		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
