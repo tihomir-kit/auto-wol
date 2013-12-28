@@ -1,4 +1,4 @@
-Android auto Wake-On-Lan
+Android auto Wake-on-Lan
 ========
 
-A simple android Wake-On-Lan application with the additional feature of waking devices up on Wi-Fi connected.
+A simple android Wake-on-Lan application with the additional feature of waking devices up on Wi-Fi connected.

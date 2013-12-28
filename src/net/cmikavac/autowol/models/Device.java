@@ -5,14 +5,14 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Device implements Serializable {
-	private String mId;
+	private Integer mId;
 	private String mName;
 	private String mIp;
 	private String mMac;
 	private Boolean mAutoWOL;
 	private Date mLastConnectedFilter;
-	private Date mSleepingHoursStart;
-	private Date mSleepingHoursEnd;
+	private Date mQuietHoursStart;
+	private Date mQuietHoursEnd;
 	
 	public Device() {
 		super();
@@ -24,12 +24,20 @@ public class Device implements Serializable {
 		this.mIp = ip;
 		this.mMac = mac;
 	}
-	
-	public String getId() {
+
+	public Device(Integer id, String name, String ip, String mac) {
+		super();
+		this.mId = id;
+		this.mName = name;
+		this.mIp = ip;
+		this.mMac = mac;
+	}
+
+	public Integer getId() {
 		return mId;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.mId = id;
 	}
 
@@ -73,19 +81,19 @@ public class Device implements Serializable {
 		this.mLastConnectedFilter = lastConnectedFilter;
 	}
 
-	public Date getSleepingHoursStart() {
-		return mSleepingHoursStart;
+	public Date getQuietHoursStart() {
+		return mQuietHoursStart;
 	}
 
-	public void setSleepingHoursStart(Date sleepingHoursStart) {
-		this.mSleepingHoursStart = sleepingHoursStart;
+	public void setQuietHoursStart(Date quietHoursStart) {
+		this.mQuietHoursStart = quietHoursStart;
 	}
 
-	public Date getSleepingHoursEnd() {
-		return mSleepingHoursEnd;
+	public Date getQuietHoursEnd() {
+		return mQuietHoursEnd;
 	}
 
-	public void setSleepingHoursEnd(Date sleepingHoursEnd) {
-		this.mSleepingHoursEnd = sleepingHoursEnd;
+	public void setQuietHoursEnd(Date quietHoursEnd) {
+		this.mQuietHoursEnd = quietHoursEnd;
 	}		
 }
