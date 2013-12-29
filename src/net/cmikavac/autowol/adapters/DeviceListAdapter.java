@@ -5,6 +5,7 @@ import java.util.List;
 import net.cmikavac.autowol.DeviceActivity;
 import net.cmikavac.autowol.R;
 import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.services.WolService;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -70,11 +71,7 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		itemView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO: implement WOL call here
-				Device device = mDevices.get(position); 
-				String message = "You clicked position " + position
-					+ " which is device " + device.getName();
-				Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+				WakeDevice(position);
 			}
 		});
 	}
@@ -90,7 +87,12 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 			}
 		});
 	}
-	
+
+	private void WakeDevice(Integer position) {
+		Device device = mDevices.get(position);
+		new WolService(mContext).execute(device);
+	}
+
 	private void showDialog(final int position) {
 		final CharSequence[] dialogItems = {"Wake", "Edit", "Delete"};
 
