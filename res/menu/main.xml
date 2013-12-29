@@ -13,8 +13,8 @@
         android:showAsAction="always" />
 
     <item 
-        android:id="@+id/action_accept"
-        android:icon="@drawable/ic_action_accept"
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_action_save"
         android:orderInCategory="99"
         android:showAsAction="always" />
 

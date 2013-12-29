@@ -40,15 +40,15 @@ public class DeviceActivity extends BaseActivity {
 			case android.R.id.home:
 				this.finish();
 				break;
-			case R.id.action_accept:
+			case R.id.action_save:
 				getViewValues();
-				mDbProvider.insertDevice(mDevice);
+				saveDeviceToDb();
 				this.finish();
 				break;
 		}
 		return true;
 	}
-	
+
 	private void setDevice() {
 		Intent intent = getIntent();
 		Device device = (Device)intent.getSerializableExtra("deviceObject");
@@ -58,7 +58,14 @@ public class DeviceActivity extends BaseActivity {
 		else
 			mDevice = device;
 	}
-	
+
+	private void saveDeviceToDb() {
+		if (mDevice.getId() == -1)
+			mDbProvider.insertDevice(mDevice);
+		else
+			mDbProvider.updateDevice(mDevice);
+	}
+
 	private void setViewValues() {
 		EditText nameText = (EditText)findViewById(R.id.edit_name);
 		EditText ipText = (EditText)findViewById(R.id.edit_ip);

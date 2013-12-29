@@ -5,7 +5,7 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Device implements Serializable {
-	private Integer mId;
+	private long mId;
 	private String mName;
 	private String mIp;
 	private String mMac;
@@ -16,6 +16,7 @@ public class Device implements Serializable {
 	
 	public Device() {
 		super();
+		this.mId = -1;
 	}
 	
 	public Device(String name, String ip, String mac) {
@@ -25,7 +26,7 @@ public class Device implements Serializable {
 		this.mMac = mac;
 	}
 
-	public Device(Integer id, String name, String ip, String mac) {
+	public Device(long id, String name, String ip, String mac) {
 		super();
 		this.mId = id;
 		this.mName = name;
@@ -33,7 +34,7 @@ public class Device implements Serializable {
 		this.mMac = mac;
 	}
 
-	public Integer getId() {
+	public long getId() {
 		return mId;
 	}
 

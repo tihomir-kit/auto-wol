@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		menu.findItem(R.id.action_accept).setVisible(false);
+		menu.findItem(R.id.action_save).setVisible(false);
 		return true;
 	}
 
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
 		return true;
 	}
 
-	private void populateListView() {
+	public void populateListView() {
 		mDevices = mDbProvider.getAllDevices();
 		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
 		ListView list = (ListView)findViewById(R.id.device_list_view);

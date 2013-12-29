@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 public class WolService extends AsyncTask<Device, Void, String> {
 	private Context mContext = null;
-	private String mMessage = null;
 	
 	public WolService(Context context) {
 		mContext = context;
@@ -20,7 +19,6 @@ public class WolService extends AsyncTask<Device, Void, String> {
 
 	@Override
 	protected String doInBackground(Device... devices) {
-		// TODO Auto-generated method stub
 		Device device = devices[0];
 		return Wake(device.getIp(), device.getMac(), 9);
 	}
@@ -33,7 +31,6 @@ public class WolService extends AsyncTask<Device, Void, String> {
 
 	private String Wake(String ip, String mac, int port) {
 		try {
-			android.util.Log.d("CMIIIIIK", "test2");
 			byte[] macBytes = getMacBytes(mac);
 			byte[] bytes = new byte[6 + 16 * macBytes.length];
 			for (int i = 0; i < 6; i++) {
@@ -56,9 +53,9 @@ public class WolService extends AsyncTask<Device, Void, String> {
 		}
 	}
 
-	private static byte[] getMacBytes(String macStr) throws IllegalArgumentException {
+	private static byte[] getMacBytes(String mac) throws IllegalArgumentException {
 		byte[] bytes = new byte[6];
-		String[] hex = macStr.split("(\\:|\\-)");
+		String[] hex = mac.split("(\\:|\\-)");
 		
 		if (hex.length != 6) {
 			throw new IllegalArgumentException("Invalid MAC address.");

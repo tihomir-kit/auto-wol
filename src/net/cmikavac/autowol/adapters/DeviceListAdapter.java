@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.cmikavac.autowol.DeviceActivity;
 import net.cmikavac.autowol.R;
+import net.cmikavac.autowol.data.DbProvider;
 import net.cmikavac.autowol.models.Device;
 import net.cmikavac.autowol.services.WolService;
 
@@ -19,16 +20,17 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DeviceListAdapter extends ArrayAdapter<Device> {
 	private Context mContext = null;
 	private List<Device> mDevices = null;
+	private DbProvider mDbProvider = null;
 
 	public DeviceListAdapter(Context context, List<Device> devices) {
 		super(context, R.layout.device_item_view, devices);
 		mContext = context;
 		mDevices = devices;
+		mDbProvider = new DbProvider(context);
 	}
 
 	@Override
@@ -71,7 +73,7 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		itemView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WakeDevice(position);
+				wakeDevice(position);
 			}
 		});
 	}
@@ -80,17 +82,12 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		itemView.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				Vibrator vibe = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
-				vibe.vibrate(50); 
+				Vibrator vibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
+				vibrator.vibrate(50);
 				showDialog(position);
 				return false;
 			}
 		});
-	}
-
-	private void WakeDevice(Integer position) {
-		Device device = mDevices.get(position);
-		new WolService(mContext).execute(device);
 	}
 
 	private void showDialog(final int position) {
@@ -100,15 +97,44 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		builder.setTitle("Choose action");
 		builder.setItems(dialogItems, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
-				Device device = mDevices.get(position);
-				Intent intent = new Intent(mContext, DeviceActivity.class);
-				intent.putExtra("deviceObject", device);
-				mContext.startActivity(intent);
+				switch(item) {
+					case 0: // Wake
+						wakeDevice(position);
+						break;
+					case 1: // Edit
+						editDevice(position);
+						break;
+					case 2: // Delete
+						deleteDevice(position);
+						break;
+				}
 			}
 		});
 
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	private void wakeDevice(int position) {
+		Device device = mDevices.get(position);
+		new WolService(mContext).execute(device);
+	}
+
+	private void editDevice(int position) {
+		Device device = mDevices.get(position);
+		Intent intent = new Intent(mContext, DeviceActivity.class);
+		intent.putExtra("deviceObject", device);
+		mContext.startActivity(intent);
+	}
+
+	private void deleteDevice(int position) {
+		mDbProvider.open();
+		Device device = mDevices.get(position);
+		mDbProvider.deleteDevice(device.getId());
+		mDbProvider.close();
+
+		mDevices.remove(position);
+		notifyDataSetChanged();
 	}
 
 	private class ItemHolder {
