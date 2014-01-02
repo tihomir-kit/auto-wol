@@ -5,9 +5,14 @@
         android:orderInCategory="100"
         android:showAsAction="always" 
         android:icon="@drawable/ic_action_overflow" />  -->
+    <item 
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_action_help"
+        android:orderInCategory="97"
+        android:showAsAction="always" />
     
     <item 
-        android:id="@+id/layout_auto_wake"
+        android:id="@+id/action_new"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="98"
         android:showAsAction="always" />

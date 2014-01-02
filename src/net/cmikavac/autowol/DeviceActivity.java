@@ -33,7 +33,7 @@ public class DeviceActivity extends BaseActivity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		menu.findItem(R.id.layout_auto_wake).setVisible(false);
+		menu.findItem(R.id.action_new).setVisible(false);
 
 		return true;
 	}
@@ -49,6 +49,8 @@ public class DeviceActivity extends BaseActivity {
 				getViewValues();
 				saveDeviceToDb();
 				this.finish();
+				break;
+			case R.id.action_new:
 				break;
 		}
 		return true;

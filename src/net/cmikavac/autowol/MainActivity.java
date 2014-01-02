@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		menu.findItem(R.id.action_save).setVisible(false);
+		menu.findItem(R.id.action_help).setVisible(false);
 		return true;
 	}
 
@@ -42,7 +43,7 @@ public class MainActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch(item.getItemId()) {
-			case R.id.layout_auto_wake:
+			case R.id.action_new:
 				Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
 				intent.putExtra("deviceObject", new Device());
 				startActivity(intent);
