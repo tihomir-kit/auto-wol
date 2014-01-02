@@ -1,154 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/device_activity_layout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/device_activity_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/text_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/device_activity_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_name"
-        android:layout_alignParentTop="true"
-        android:text="Name"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/edit_mac"
-        android:layout_below="@+id/text_name"
-        android:ems="10"
-        android:hint="Home PC" >
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <requestFocus />
-        <requestFocus />
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Home PC" >
+            <requestFocus />
+        </EditText>
 
-    </EditText>
+        <TextView
+            android:id="@+id/text_mac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MAC Address"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <Button
-        android:id="@+id/btn_hint_name"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_name"
-        android:layout_alignLeft="@+id/btn_hint_mac"
-        android:layout_alignTop="@+id/edit_name"
-        android:background="@drawable/ic_action_help" />
+        <EditText
+            android:id="@+id/edit_mac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="AB:CD:EF:12:34:56" />
 
-    <TextView
-        android:id="@+id/text_mac"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_name"
-        android:text="MAC Address"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/text_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Broadcast IP Address"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <EditText
-        android:id="@+id/edit_mac"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/text_mac"
-        android:layout_toLeftOf="@+id/btn_hint_mac"
-        android:ems="10"
-        android:hint="AB:CD:EF:12:34:56" >
-    </EditText>
+        <EditText
+            android:id="@+id/edit_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="192.168.1.255"
+            android:hint="192.168.1.255" />
 
-    <Button
-        android:id="@+id/btn_hint_mac"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_mac"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/edit_mac"
-        android:background="@drawable/ic_action_help" />
+        <TextView
+            android:id="@+id/text_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Port"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/text_ip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_mac"
-        android:text="Broadcast IP Address"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <EditText
+            android:id="@+id/edit_port"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="9"
+            android:hint="9" />
 
-    <EditText
-        android:id="@+id/edit_ip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/text_ip"
-        android:layout_toLeftOf="@+id/btn_hint_ip"
-        android:ems="10"
-        android:hint="192.168.1.255" />
+        <Switch
+            android:id="@+id/switch_auto_wake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Auto-Wake" />
 
-    <Button
-        android:id="@+id/btn_hint_ip"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_ip"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/edit_ip"
-        android:background="@drawable/ic_action_help" />
+        <LinearLayout
+            android:id="@+id/auto_wake_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/text_port"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_ip"
-        android:text="Port"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/text_ssid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SSID"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <EditText
-        android:id="@+id/edit_port"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/text_port"
-        android:layout_toLeftOf="@+id/btn_hint_port"
-        android:ems="10"
-        android:hint="9" />
+            <EditText
+                android:id="@+id/edit_ssid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="MyRouter" />
 
-    <Button
-        android:id="@+id/btn_hint_port"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_port"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/edit_port"
-        android:background="@drawable/ic_action_help" />
+            <Switch
+                android:id="@+id/switch_quiet_hours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quiet Hours" />
 
-    <Switch
-        android:id="@+id/switch_quiet_hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/edit_port"
-        android:layout_below="@+id/edit_port"
-        android:layout_marginTop="8dp"
-        android:minHeight="40dp"
-        android:text="Quiet Hours" />
+            <LinearLayout
+                android:id="@+id/quiet_hours_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/btn_hint_quiet_hours"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/switch_quiet_hours"
-        android:layout_alignLeft="@+id/btn_hint_port"
-        android:layout_alignTop="@+id/switch_quiet_hours"
-        android:background="@drawable/ic_action_help" />
+                <LinearLayout
+                    android:id="@+id/quiet_hours_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:clickable="true"
+                    android:orientation="vertical" >
 
-</RelativeLayout>
+                    <TextView
+                        android:id="@+id/text_hours_from_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/text_hours_from"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/quiet_hours_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:clickable="true"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/text_hours_to_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/text_hours_to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="07:00" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_idle_before_auto_wake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Idle Before Auto-Wake" />
+
+            <LinearLayout
+                android:id="@+id/idle_before_auto_wake_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/text_idle_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Idle time before Auto-Wake"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/text_idle_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3h" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch(item.getItemId()) {
-			case R.id.action_new:
+			case R.id.layout_auto_wake:
 				Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
 				intent.putExtra("deviceObject", new Device());
 				startActivity(intent);

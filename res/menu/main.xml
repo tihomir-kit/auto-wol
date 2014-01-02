@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_action_overflow" />  -->
     
     <item 
-        android:id="@+id/action_new"
+        android:id="@+id/layout_auto_wake"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="98"
         android:showAsAction="always" />
