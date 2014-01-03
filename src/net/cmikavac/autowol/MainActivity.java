@@ -14,48 +14,48 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends BaseActivity {
-	private List<Device> mDevices = new ArrayList<Device>();
+    private List<Device> mDevices = new ArrayList<Device>();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-		populateListView();
-	}
+        populateListView();
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		populateListView();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateListView();
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		menu.findItem(R.id.action_save).setVisible(false);
-		menu.findItem(R.id.action_help).setVisible(false);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_save).setVisible(false);
+        menu.findItem(R.id.action_help).setVisible(false);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch(item.getItemId()) {
-			case R.id.action_new:
-				Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-				intent.putExtra("deviceObject", new Device());
-				startActivity(intent);
-				break;
-		}
-		return true;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.action_new:
+                Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
+                intent.putExtra("deviceObject", new Device());
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
 
-	public void populateListView() {
-		mDevices = mDbProvider.getAllDevices();
-		ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
-		ListView list = (ListView)findViewById(R.id.device_list_view);
-		list.setAdapter(adapter);
-	}
+    public void populateListView() {
+        mDevices = mDbProvider.getAllDevices();
+        ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
+        ListView list = (ListView)findViewById(R.id.device_list_view);
+        list.setAdapter(adapter);
+    }
 }
