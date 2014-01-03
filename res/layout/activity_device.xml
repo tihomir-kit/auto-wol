@@ -161,26 +161,26 @@
             </LinearLayout>
 
             <Switch
-                android:id="@+id/switch_idle_before_auto_wake"
+                android:id="@+id/switch_idle_hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Idle Before Auto-Wake" />
+                android:text="Idle Hours" />
 
             <LinearLayout
-                android:id="@+id/idle_before_auto_wake_layout"
+                android:id="@+id/idle_hours_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/text_idle_header"
+                    android:id="@+id/text_idle_hours_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Idle time before Auto-Wake"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
-                    android:id="@+id/text_idle_time"
+                    android:id="@+id/text_idle_hours"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3h" />

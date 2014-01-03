@@ -41,28 +41,20 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		if (itemView == null) {
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			itemView = inflater.inflate(R.layout.device_item_view, parent, false);
-			itemHolder = setHolderItemViews(itemView);
+			itemHolder = createItemHolder(itemView);
 			itemView.setTag(itemHolder);
 		} else {
 			itemHolder = (ItemHolder)itemView.getTag();
 		}
 
-		setItemTextValues(position, itemHolder);
+		setItemHolderTextValues(position, itemHolder);
 		registerOnClickListener(position, itemView);
 		registerOnLongClickListener(position, itemView);
 
 		return itemView;
 	}
 
-	private ItemHolder setHolderItemViews(View itemView) {
-		ItemHolder itemHolder = new ItemHolder();
-		itemHolder.nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
-		itemHolder.ipText = (TextView)itemView.findViewById(R.id.device_item_txt_ip);
-		itemHolder.macText = (TextView)itemView.findViewById(R.id.device_item_txt_mac);
-		return itemHolder;
-	}
-
-	private void setItemTextValues(final int position, ItemHolder itemHolder) {
+	private void setItemHolderTextValues(final int position, ItemHolder itemHolder) {
 		Device device = mDevices.get(position);
 		itemHolder.nameText.setText(device.getName());
 		itemHolder.ipText.setText(device.getIp());
@@ -137,6 +129,15 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 		notifyDataSetChanged();
 	}
 
+	private ItemHolder createItemHolder(View itemView) {
+		ItemHolder itemHolder = new ItemHolder();
+		itemHolder.nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
+		itemHolder.ipText = (TextView)itemView.findViewById(R.id.device_item_txt_ip);
+		itemHolder.macText = (TextView)itemView.findViewById(R.id.device_item_txt_mac);
+		return itemHolder;
+	}
+
+	// probat ovo skratit kroz konstruktor da se proslijedi textview
 	private class ItemHolder {
 		TextView nameText;
 		TextView ipText;

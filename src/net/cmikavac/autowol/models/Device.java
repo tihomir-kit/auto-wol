@@ -7,12 +7,13 @@ import java.util.Date;
 public class Device implements Serializable {
 	private long mId;
 	private String mName;
-	private String mIp;
 	private String mMac;
-	private Boolean mAutoWOL;
-	private Date mLastConnectedFilter;
+	private String mIp;
+	private int mPort;
+	private Boolean mSSID;
 	private Date mQuietHoursStart;
 	private Date mQuietHoursEnd;
+	private Date mIdleHours;
 	
 	public Device() {
 		super();
@@ -22,16 +23,16 @@ public class Device implements Serializable {
 	public Device(String name, String ip, String mac) {
 		super();
 		this.mName = name;
-		this.mIp = ip;
 		this.mMac = mac;
+		this.mIp = ip;
 	}
 
 	public Device(long id, String name, String ip, String mac) {
 		super();
 		this.mId = id;
 		this.mName = name;
-		this.mIp = ip;
 		this.mMac = mac;
+		this.mIp = ip;
 	}
 
 	public long getId() {
@@ -50,6 +51,10 @@ public class Device implements Serializable {
 		this.mName = name;
 	}
 
+	public String getMac() {
+		return mMac;
+	}
+
 	public String getIp() {
 		return mIp;
 	}
@@ -58,28 +63,24 @@ public class Device implements Serializable {
 		this.mIp = ip;
 	}
 
-	public String getMac() {
-		return mMac;
-	}
-
 	public void setMac(String mac) {
 		this.mMac = mac;
 	}
-	
-	public Boolean getAutoWOL() {
-		return mAutoWOL;
+
+	public int getPort() {
+		return mPort;
 	}
 
-	public void setAutoWOL(Boolean autoWOL) {
-		this.mAutoWOL = autoWOL;
+	public void setPort(int port) {
+		this.mPort = port;
 	}
 
-	public Date getLastConnectedFilter() {
-		return mLastConnectedFilter;
+	public Boolean getSSID() {
+		return mSSID;
 	}
 
-	public void setLastConnectedFilter(Date lastConnectedFilter) {
-		this.mLastConnectedFilter = lastConnectedFilter;
+	public void setSSID(Boolean ssid) {
+		this.mSSID = ssid;
 	}
 
 	public Date getQuietHoursStart() {
@@ -96,5 +97,13 @@ public class Device implements Serializable {
 
 	public void setQuietHoursEnd(Date quietHoursEnd) {
 		this.mQuietHoursEnd = quietHoursEnd;
-	}		
+	}
+	
+	public Date getIdleHours() {
+		return mIdleHours;
+	}
+
+	public void setIdleHours(Date idleHours) {
+		this.mIdleHours = idleHours;
+	}
 }
