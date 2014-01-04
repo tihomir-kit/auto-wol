@@ -120,7 +120,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="50"
                     android:clickable="true"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:background="@drawable/quiet_hours_selector">
 
                     <TextView
                         android:id="@+id/text_quiet_hours_from_header"
@@ -143,7 +144,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="50"
                     android:clickable="true"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:background="@drawable/quiet_hours_selector">
 
                     <TextView
                         android:id="@+id/text_quiet_hours_to_header"
