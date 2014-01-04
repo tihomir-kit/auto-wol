@@ -82,7 +82,7 @@
             android:text="Auto-Wake" />
 
         <LinearLayout
-            android:id="@+id/auto_wake_layout"
+            android:id="@+id/layout_auto_wake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -91,7 +91,7 @@
                 android:id="@+id/text_ssid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SSID"
+                android:text="Wireless Network SSID"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <EditText
@@ -108,12 +108,13 @@
                 android:text="Quiet Hours" />
 
             <LinearLayout
-                android:id="@+id/quiet_hours_layout"
+                android:id="@+id/layout_quiet_hours"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:baselineAligned="true" >
 
                 <LinearLayout
-                    android:id="@+id/quiet_hours_from"
+                    android:id="@+id/layout_quiet_hours_from"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="50"
@@ -121,14 +122,14 @@
                     android:orientation="vertical" >
 
                     <TextView
-                        android:id="@+id/text_hours_from_header"
+                        android:id="@+id/text_quiet_hours_from_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="From"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
-                        android:id="@+id/text_hours_from"
+                        android:id="@+id/text_quiet_hours_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="00:00" />
@@ -136,7 +137,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/quiet_hours_to"
+                    android:id="@+id/layout_quiet_hours_to"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="50"
@@ -144,14 +145,14 @@
                     android:orientation="vertical" >
 
                     <TextView
-                        android:id="@+id/text_hours_to_header"
+                        android:id="@+id/text_quiet_hours_to_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="To"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
-                        android:id="@+id/text_hours_to"
+                        android:id="@+id/text_quiet_hours_to"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="07:00" />
@@ -161,26 +162,26 @@
             </LinearLayout>
 
             <Switch
-                android:id="@+id/switch_idle_hours"
+                android:id="@+id/switch_idle_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Idle Hours" />
+                android:text="Idle Time" />
 
             <LinearLayout
-                android:id="@+id/idle_hours_layout"
+                android:id="@+id/layout_idle_hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/text_idle_hours_header"
+                    android:id="@+id/text_idle_time_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Idle time before Auto-Wake"
+                    android:text="Idle time before Auto-Wake (minutes)"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
-                    android:id="@+id/text_idle_hours"
+                    android:id="@+id/text_idle_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3h" />

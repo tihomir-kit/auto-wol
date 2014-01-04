@@ -1,10 +1,10 @@
 package net.cmikavac.autowol;
 
 import net.cmikavac.autowol.data.DbProvider;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
     protected DbProvider mDbProvider = null;
 
     @Override

@@ -9,10 +9,10 @@ public class Device implements Serializable {
     private String mName;
     private String mMac;
     private String mIp;
-    private int mPort;
+    private Integer mPort;
     private Boolean mSSID;
-    private Date mQuietHoursStart;
-    private Date mQuietHoursEnd;
+    private Date mQuietHoursFrom;
+    private Date mQuietHoursTo;
     private Date mIdleHours;
     
     public Device() {
@@ -67,11 +67,11 @@ public class Device implements Serializable {
         this.mMac = mac;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return mPort;
     }
 
-    public void setPort(int port) {
+    public void setPort(Integer port) {
         this.mPort = port;
     }
 
@@ -83,20 +83,20 @@ public class Device implements Serializable {
         this.mSSID = ssid;
     }
 
-    public Date getQuietHoursStart() {
-        return mQuietHoursStart;
+    public Date getQuietHoursFrom() {
+        return mQuietHoursFrom;
     }
 
-    public void setQuietHoursStart(Date quietHoursStart) {
-        this.mQuietHoursStart = quietHoursStart;
+    public void setQuietHoursFrom(Date quietHoursFrom) {
+        this.mQuietHoursFrom = quietHoursFrom;
     }
 
-    public Date getQuietHoursEnd() {
-        return mQuietHoursEnd;
+    public Date getQuietHoursTo() {
+        return mQuietHoursTo;
     }
 
-    public void setQuietHoursEnd(Date quietHoursEnd) {
-        this.mQuietHoursEnd = quietHoursEnd;
+    public void setQuietHoursTo(Date quietHoursTo) {
+        this.mQuietHoursTo = quietHoursTo;
     }
     
     public Date getIdleHours() {
