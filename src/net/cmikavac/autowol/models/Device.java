@@ -1,23 +1,22 @@
 package net.cmikavac.autowol.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Device implements Serializable {
-    private long mId;
+    private Long mId;
     private String mName;
     private String mMac;
     private String mIp;
     private Integer mPort;
     private Boolean mSSID;
-    private Date mQuietHoursFrom;
-    private Date mQuietHoursTo;
-    private Date mIdleHours;
+    private Long mQuietHoursFrom;
+    private Long mQuietHoursTo;
+    private Integer mIdleTime;
     
     public Device() {
         super();
-        this.mId = -1;
+        this.mId = (long)-1;
     }
     
     public Device(String name, String ip, String mac) {
@@ -39,7 +38,7 @@ public class Device implements Serializable {
         return mId;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.mId = id;
     }
 
@@ -83,27 +82,27 @@ public class Device implements Serializable {
         this.mSSID = ssid;
     }
 
-    public Date getQuietHoursFrom() {
+    public Long getQuietHoursFrom() {
         return mQuietHoursFrom;
     }
 
-    public void setQuietHoursFrom(Date quietHoursFrom) {
+    public void setQuietHoursFrom(Long quietHoursFrom) {
         this.mQuietHoursFrom = quietHoursFrom;
     }
 
-    public Date getQuietHoursTo() {
+    public Long getQuietHoursTo() {
         return mQuietHoursTo;
     }
 
-    public void setQuietHoursTo(Date quietHoursTo) {
+    public void setQuietHoursTo(Long quietHoursTo) {
         this.mQuietHoursTo = quietHoursTo;
     }
     
-    public Date getIdleHours() {
-        return mIdleHours;
+    public Integer getIdleTime() {
+        return mIdleTime;
     }
 
-    public void setIdleHours(Date idleHours) {
-        this.mIdleHours = idleHours;
+    public void setIdleTime(Integer idleTime) {
+        this.mIdleTime = idleTime;
     }
 }

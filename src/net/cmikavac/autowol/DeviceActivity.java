@@ -1,9 +1,8 @@
 package net.cmikavac.autowol;
 
-import java.util.Calendar;
-
 import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.utils.TimeConverter;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
@@ -63,23 +62,6 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return true;
     }
 
-    @Override
-    public void onTimePicked(int layoutId, int hour, int minute) {
-        Integer textId = null;
-        switch (layoutId) {
-            case R.id.layout_quiet_hours_from:
-                // TODO: set mDevice value
-                textId = R.id.text_quiet_hours_from;
-                break;
-            case R.id.layout_quiet_hours_to:
-                textId = R.id.text_quiet_hours_to;
-                break;
-        }
-
-        TextView textView = (TextView)findViewById(textId);
-        textView.setText(hour + ":" + minute);
-    }
-
     private void registerSwitchCallbacks() {
         final CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -92,7 +74,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
                         toggleLinearLayoutVisibility(R.id.layout_quiet_hours, isChecked);
                         break;
                     case R.id.switch_idle_time:
-                        toggleLinearLayoutVisibility(R.id.layout_idle_hours, isChecked);
+                        toggleLinearLayoutVisibility(R.id.layout_idle_time, isChecked);
                         break;
                 }
             }
@@ -101,7 +83,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         ItemHolder itemHolder = createItemHolder();
         itemHolder.autoWakeSwitch.setOnCheckedChangeListener(listener);
         itemHolder.quietHoursSwitch.setOnCheckedChangeListener(listener);
-        itemHolder.idleHoursSwitch.setOnCheckedChangeListener(listener);
+        itemHolder.idleTimeSwitch.setOnCheckedChangeListener(listener);
     }
 
     private void registerLinearLayoutButtonsCallbacks() {
@@ -142,22 +124,29 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
-                //if (mDevice.getQuietHoursStart() != null)
+                if (mDevice.getQuietHoursFrom() != null)
+                    hour = TimeConverter.getHourFromMilliseconds(mDevice.getQuietHoursFrom());
                 break;
             case R.id.layout_quiet_hours_to:
+                if (mDevice.getQuietHoursTo() != null)
+                    hour = TimeConverter.getHourFromMilliseconds(mDevice.getQuietHoursTo());
                 break;
         }
 
         return hour;
     }
-    
+
     public int getQuietHoursMinute(int layoutId) {
         int minute = 0;
 
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
+                if (mDevice.getQuietHoursFrom() != null)
+                    minute = TimeConverter.getMinuteFromMilliseconds(mDevice.getQuietHoursFrom());
                 break;
             case R.id.layout_quiet_hours_to:
+                if (mDevice.getQuietHoursTo() != null)
+                    minute = TimeConverter.getMinuteFromMilliseconds(mDevice.getQuietHoursTo());
                 break;
         }
 
@@ -170,6 +159,35 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         bundle.putInt("hour", hour);
         bundle.putInt("minute", minute);
         return bundle;
+    }
+
+    @Override
+    public void onTimePicked(int layoutId, int hour, int minute) {
+        Long timeInMillis = TimeConverter.getTimeInMilliseconds(hour, minute);
+        Integer textId = setDeviceQuietHoursValues(layoutId, timeInMillis);
+        setLayoutQuietHoursText(timeInMillis, textId);
+    }
+
+    private Integer setDeviceQuietHoursValues(int layoutId, Long timeInMillis) {
+        Integer textId = null;
+
+        switch (layoutId) {
+            case R.id.layout_quiet_hours_from:
+                textId = R.id.text_quiet_hours_from;
+                mDevice.setQuietHoursFrom(timeInMillis);
+                break;
+            case R.id.layout_quiet_hours_to:
+                textId = R.id.text_quiet_hours_to;
+                mDevice.setQuietHoursTo(timeInMillis);
+                break;
+        }
+
+        return textId;
+    }
+
+    private void setLayoutQuietHoursText(Long timeInMillis, Integer textId) {
+        TextView textView = (TextView)findViewById(textId);
+        textView.setText(TimeConverter.getFormatedTime(timeInMillis, this));
     }
 
     private void setDevice() {
@@ -198,6 +216,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
         itemHolder.nameEdit.setText(mDevice.getName());
         itemHolder.macEdit.setText(mDevice.getMac());
+        
 
         if (mDevice.getIp() != null) {
             itemHolder.ipEdit.setText(mDevice.getIp());
@@ -207,6 +226,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             itemHolder.portEdit.setText(mDevice.getPort());
         }
 
+        if (mDevice.getIdleTime() != null) {
+            itemHolder.idleTimeEdit.setText(mDevice.getIdleTime());
+        }
+        
         if (mDevice.getSSID() != null) {
             itemHolder.autoWakeSwitch.setChecked(true);
         }
@@ -221,11 +244,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             itemHolder.quietHoursLayout.setVisibility(LinearLayout.GONE);
         }
 
-        if (mDevice.getIdleHours() != null) {
-            itemHolder.idleHoursSwitch.setChecked(true);
+        if (mDevice.getIdleTime() != null) {
+            itemHolder.idleTimeSwitch.setChecked(true);
         }
         else {
-            itemHolder.idleHoursLayout.setVisibility(LinearLayout.GONE);
+            itemHolder.idleTimeLayout.setVisibility(LinearLayout.GONE);
         }
     }
 
@@ -239,41 +262,57 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
     private ItemHolder createItemHolder() {
         ItemHolder itemHolder = new ItemHolder();
+        
+        // EditText
         itemHolder.nameEdit = (EditText)findViewById(R.id.edit_name);
         itemHolder.ipEdit = (EditText)findViewById(R.id.edit_ip);
         itemHolder.macEdit = (EditText)findViewById(R.id.edit_mac);
         itemHolder.portEdit = (EditText)findViewById(R.id.edit_port);
         itemHolder.portEdit = (EditText)findViewById(R.id.edit_ssid);
+        itemHolder.idleTimeEdit = (EditText)findViewById(R.id.edit_idle_time);
+        
+        // TextView
         itemHolder.quietHoursFromText = (TextView)findViewById(R.id.text_quiet_hours_from);
         itemHolder.quietHoursToText = (TextView)findViewById(R.id.text_quiet_hours_to);
-        itemHolder.idleHoursText = (TextView)findViewById(R.id.text_idle_time);
+        
+        // LinearLayout
         itemHolder.autoWakeLayout = (LinearLayout)findViewById(R.id.layout_auto_wake);
         itemHolder.quietHoursLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours);
         itemHolder.quietHoursFromLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_from);
         itemHolder.quietHoursToLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_to);
-        itemHolder.idleHoursLayout = (LinearLayout)findViewById(R.id.layout_idle_hours);
+        itemHolder.idleTimeLayout = (LinearLayout)findViewById(R.id.layout_idle_time);
+        
+        // Switch
         itemHolder.autoWakeSwitch = (Switch)findViewById(R.id.switch_auto_wake);
         itemHolder.quietHoursSwitch = (Switch)findViewById(R.id.switch_quiet_hours);
-        itemHolder.idleHoursSwitch = (Switch)findViewById(R.id.switch_idle_time);
+        itemHolder.idleTimeSwitch = (Switch)findViewById(R.id.switch_idle_time);
+
         return itemHolder;
     }
 
     private class ItemHolder {
+        // EditText
         EditText nameEdit;
         EditText ipEdit;
         EditText macEdit;
         EditText portEdit;
         EditText ssidEdit;
+        EditText idleTimeEdit;
+
+        // TextView
         TextView quietHoursFromText;
         TextView quietHoursToText;
-        TextView idleHoursText;
+
+        // LinearLayout
         LinearLayout autoWakeLayout;
         LinearLayout quietHoursLayout;
         LinearLayout quietHoursFromLayout;
         LinearLayout quietHoursToLayout;
-        LinearLayout idleHoursLayout;
+        LinearLayout idleTimeLayout;
+
+        // Switch
         Switch autoWakeSwitch;
         Switch quietHoursSwitch;
-        Switch idleHoursSwitch;
+        Switch idleTimeSwitch;
     }
 }
