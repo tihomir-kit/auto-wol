@@ -20,12 +20,14 @@ import android.widget.TextView;
 
 public class DeviceActivity extends BaseActivity implements OnTimePickedListener {
     private Device mDevice = null;
+    private ItemHolder mItemHolder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
 
+        initializeItemHolder();
         setDevice();
         setViewValues();
         registerSwitchCallbacks();
@@ -80,10 +82,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             }
         };
 
-        ItemHolder itemHolder = createItemHolder();
-        itemHolder.autoWakeSwitch.setOnCheckedChangeListener(listener);
-        itemHolder.quietHoursSwitch.setOnCheckedChangeListener(listener);
-        itemHolder.idleTimeSwitch.setOnCheckedChangeListener(listener);
+        mItemHolder.autoWakeSwitch.setOnCheckedChangeListener(listener);
+        mItemHolder.quietHoursSwitch.setOnCheckedChangeListener(listener);
+        mItemHolder.idleTimeSwitch.setOnCheckedChangeListener(listener);
     }
 
     private void registerLinearLayoutButtonsCallbacks() {
@@ -94,9 +95,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             }
         };
 
-        ItemHolder itemHolder = createItemHolder();
-        itemHolder.quietHoursFromLayout.setOnClickListener(listener);
-        itemHolder.quietHoursToLayout.setOnClickListener(listener);
+        mItemHolder.quietHoursFromLayout.setOnClickListener(listener);
+        mItemHolder.quietHoursToLayout.setOnClickListener(listener);
     }
 
     private void toggleLinearLayoutVisibility(int layoutId, boolean isChecked) {
@@ -164,30 +164,20 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     @Override
     public void onTimePicked(int layoutId, int hour, int minute) {
         Long timeInMillis = TimeConverter.getTimeInMilliseconds(hour, minute);
-        Integer textId = setDeviceQuietHoursValues(layoutId, timeInMillis);
-        setLayoutQuietHoursText(timeInMillis, textId);
+        setQuietHoursValues(layoutId, timeInMillis);
     }
 
-    private Integer setDeviceQuietHoursValues(int layoutId, Long timeInMillis) {
-        Integer textId = null;
-
+    private void setQuietHoursValues(int layoutId, Long timeInMillis) {
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
-                textId = R.id.text_quiet_hours_from;
                 mDevice.setQuietHoursFrom(timeInMillis);
+                mItemHolder.quietHoursFromText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
                 break;
             case R.id.layout_quiet_hours_to:
-                textId = R.id.text_quiet_hours_to;
                 mDevice.setQuietHoursTo(timeInMillis);
+                mItemHolder.quietHoursToText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
                 break;
         }
-
-        return textId;
-    }
-
-    private void setLayoutQuietHoursText(Long timeInMillis, Integer textId) {
-        TextView textView = (TextView)findViewById(textId);
-        textView.setText(TimeConverter.getFormatedTime(timeInMillis, this));
     }
 
     private void setDevice() {
@@ -212,54 +202,54 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     }
 
     private void setViewValues() {
-        ItemHolder itemHolder = createItemHolder();
-
-        itemHolder.nameEdit.setText(mDevice.getName());
-        itemHolder.macEdit.setText(mDevice.getMac());
+        mItemHolder.nameEdit.setText(mDevice.getName());
+        mItemHolder.macEdit.setText(mDevice.getMac());
         
 
         if (mDevice.getIp() != null) {
-            itemHolder.ipEdit.setText(mDevice.getIp());
+            mItemHolder.ipEdit.setText(mDevice.getIp());
         }
 
         if (mDevice.getPort() != null) {
-            itemHolder.portEdit.setText(mDevice.getPort());
+            mItemHolder.portEdit.setText(mDevice.getPort());
         }
 
         if (mDevice.getIdleTime() != null) {
-            itemHolder.idleTimeEdit.setText(mDevice.getIdleTime());
+            mItemHolder.idleTimeEdit.setText(mDevice.getIdleTime());
         }
         
         if (mDevice.getSSID() != null) {
-            itemHolder.autoWakeSwitch.setChecked(true);
+            mItemHolder.autoWakeSwitch.setChecked(true);
         }
         else {
-            itemHolder.autoWakeLayout.setVisibility(LinearLayout.GONE);
+            mItemHolder.autoWakeLayout.setVisibility(LinearLayout.GONE);
         }
 
         if (mDevice.getQuietHoursFrom() != null) {
-            itemHolder.quietHoursSwitch.setChecked(true);
+            mItemHolder.quietHoursSwitch.setChecked(true);
         }
         else {
-            itemHolder.quietHoursLayout.setVisibility(LinearLayout.GONE);
+            mItemHolder.quietHoursLayout.setVisibility(LinearLayout.GONE);
         }
 
         if (mDevice.getIdleTime() != null) {
-            itemHolder.idleTimeSwitch.setChecked(true);
+            mItemHolder.idleTimeSwitch.setChecked(true);
         }
         else {
-            itemHolder.idleTimeLayout.setVisibility(LinearLayout.GONE);
+            mItemHolder.idleTimeLayout.setVisibility(LinearLayout.GONE);
         }
     }
 
     private void getViewValues() {
-        ItemHolder itemHolder = createItemHolder();
-
-        mDevice.setName(itemHolder.nameEdit.getText().toString());
-        mDevice.setIp(itemHolder.ipEdit.getText().toString());
-        mDevice.setMac(itemHolder.macEdit.getText().toString());
+        mDevice.setName(mItemHolder.nameEdit.getText().toString());
+        mDevice.setIp(mItemHolder.ipEdit.getText().toString());
+        mDevice.setMac(mItemHolder.macEdit.getText().toString());
     }
 
+    private void initializeItemHolder() {
+        mItemHolder = createItemHolder();
+    }
+    
     private ItemHolder createItemHolder() {
         ItemHolder itemHolder = new ItemHolder();
         

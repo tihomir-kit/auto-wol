@@ -18,7 +18,7 @@
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/activity_device_text_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Home PC" >
+            android:hint="@string/activity_device_edit_name" >
             <requestFocus />
         </EditText>
 
@@ -34,7 +34,7 @@
             android:id="@+id/text_mac"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MAC Address"
+            android:text="@string/activity_device_text_mac"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
@@ -42,13 +42,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="AB:CD:EF:12:34:56" />
+            android:hint="@string/activity_device_edit_mac" />
 
         <TextView
             android:id="@+id/text_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Broadcast IP Address"
+            android:text="@string/activity_device_text_ip"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
@@ -56,14 +56,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="192.168.1.255"
-            android:text="192.168.1.255" />
+            android:hint="@string/activity_device_edit_ip"
+            android:text="@string/activity_device_edit_ip" />
 
         <TextView
             android:id="@+id/text_port"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Port"
+            android:text="@string/activity_device_text_port"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
@@ -71,15 +71,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="9"
-            android:hint="9" />
+            android:text="@string/activity_device_edit_port"
+            android:hint="@string/activity_device_edit_port" />
 
         <Switch
             android:id="@+id/switch_auto_wake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Auto-Wake" />
+            android:text="@string/activity_device_switch_auto_wake" />
 
         <LinearLayout
             android:id="@+id/layout_auto_wake"
@@ -97,7 +97,7 @@
                 android:id="@+id/text_ssid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wireless Network SSID"
+                android:text="@string/activity_device_text_ssid"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <EditText
@@ -105,14 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="MyRouter" />
+                android:hint="@string/activity_device_edit_ssid" />
 
             <Switch
                 android:id="@+id/switch_quiet_hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Quiet Hours" />
+                android:text="@string/activity_device_switch_quiet_hours" />
 
             <LinearLayout
                 android:id="@+id/layout_quiet_hours"
@@ -149,14 +149,14 @@
                             android:id="@+id/text_quiet_hours_from_header"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="From"
+                            android:text="@string/activity_device_text_quiet_hours_from"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
                             android:id="@+id/text_quiet_hours_from"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="00:00" />
+                            android:text="@string/activity_device_edit_quiet_hours_from" />
                     </LinearLayout>
 
                     <View
@@ -183,14 +183,14 @@
                             android:id="@+id/text_quiet_hours_to_header"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="To"
+                            android:text="@string/activity_device_text_quiet_hours_to"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
                             android:id="@+id/text_quiet_hours_to"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="07:00" />
+                            android:text="@string/activity_device_edit_quiet_hours_to" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -200,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Idle Time" />
+                android:text="@string/activity_device_switch_idle_time" />
 
             <LinearLayout
                 android:id="@+id/layout_idle_time"
@@ -224,7 +224,7 @@
                         android:id="@+id/text_idle_time_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Idle time before Auto-Wake (minutes)"
+                        android:text="@string/activity_device_text_idle_time"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <EditText
@@ -232,7 +232,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="120" />
+                        android:hint="@string/activity_device_edit_idle_time" />
                 </LinearLayout>
             </LinearLayout>
 
