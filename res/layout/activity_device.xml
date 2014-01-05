@@ -26,9 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/activity_device_edit_name" >
-            <requestFocus />
-        </EditText>
+            android:hint="@string/activity_device_edit_name" />
 
         <TextView
             android:id="@+id/text_mac"
@@ -71,8 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="@string/activity_device_edit_port"
-            android:hint="@string/activity_device_edit_port" />
+            android:hint="@string/activity_device_edit_port"
+            android:inputType="number"
+            android:text="@string/activity_device_edit_port" />
 
         <Switch
             android:id="@+id/switch_auto_wake"

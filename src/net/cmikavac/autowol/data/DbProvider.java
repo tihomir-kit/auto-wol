@@ -79,8 +79,13 @@ public class DbProvider extends DbConfiguration {
     private ContentValues setContentValues(Device device) {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, device.getName());
-        values.put(KEY_IP, device.getIp());
         values.put(KEY_MAC, device.getMac());
+        values.put(KEY_IP, device.getIp());
+        values.put(KEY_PORT, device.getPort());
+        values.put(KEY_SSID, device.getSSID());
+        values.put(KEY_QUIET_FROM, device.getQuietHoursFrom());
+        values.put(KEY_QUIET_TO, device.getQuietHoursTo());
+        values.put(KEY_IDLE_TIME, device.getIdleTime());
         return values;
     }
 

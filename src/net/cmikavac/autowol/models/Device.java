@@ -9,7 +9,7 @@ public class Device implements Serializable {
     private String mMac;
     private String mIp;
     private Integer mPort;
-    private Boolean mSSID;
+    private String mSSID;
     private Long mQuietHoursFrom;
     private Long mQuietHoursTo;
     private Integer mIdleTime;
@@ -19,19 +19,31 @@ public class Device implements Serializable {
         this.mId = (long)-1;
     }
     
-    public Device(String name, String ip, String mac) {
+    public Device(String name, String mac, String ip, Integer port, 
+            String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mName = name;
         this.mMac = mac;
         this.mIp = ip;
+        this.mPort = port;
+        this.mSSID = ssid;
+        this.mQuietHoursFrom = quietHoursFrom;
+        this.mQuietHoursTo = quietHoursTo;
+        this.mIdleTime = idleTime;
     }
 
-    public Device(long id, String name, String ip, String mac) {
+    public Device(Long id, String name, String mac, String ip, Integer port,
+            String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mId = id;
         this.mName = name;
         this.mMac = mac;
         this.mIp = ip;
+        this.mPort = port;
+        this.mSSID = ssid;
+        this.mQuietHoursFrom = quietHoursFrom;
+        this.mQuietHoursTo = quietHoursTo;
+        this.mIdleTime = idleTime;
     }
 
     public long getId() {
@@ -74,11 +86,11 @@ public class Device implements Serializable {
         this.mPort = port;
     }
 
-    public Boolean getSSID() {
+    public String getSSID() {
         return mSSID;
     }
 
-    public void setSSID(Boolean ssid) {
+    public void setSSID(String ssid) {
         this.mSSID = ssid;
     }
 

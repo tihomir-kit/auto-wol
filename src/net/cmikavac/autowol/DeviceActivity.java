@@ -204,28 +204,26 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private void setViewValues() {
         mItemHolder.nameEdit.setText(mDevice.getName());
         mItemHolder.macEdit.setText(mDevice.getMac());
-        
 
         if (mDevice.getIp() != null) {
             mItemHolder.ipEdit.setText(mDevice.getIp());
         }
 
         if (mDevice.getPort() != null) {
-            mItemHolder.portEdit.setText(mDevice.getPort());
+            mItemHolder.portEdit.setText(mDevice.getPort().toString());
         }
 
-        if (mDevice.getIdleTime() != null) {
-            mItemHolder.idleTimeEdit.setText(mDevice.getIdleTime());
-        }
-        
         if (mDevice.getSSID() != null) {
             mItemHolder.autoWakeSwitch.setChecked(true);
+            mItemHolder.ssidEdit.setText(mDevice.getSSID());
         }
         else {
             mItemHolder.autoWakeLayout.setVisibility(LinearLayout.GONE);
         }
 
         if (mDevice.getQuietHoursFrom() != null) {
+            mItemHolder.quietHoursFromText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursFrom(), this));
+            mItemHolder.quietHoursToText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursTo(), this));
             mItemHolder.quietHoursSwitch.setChecked(true);
         }
         else {
@@ -233,6 +231,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
 
         if (mDevice.getIdleTime() != null) {
+            mItemHolder.idleTimeEdit.setText(mDevice.getIdleTime().toString());
             mItemHolder.idleTimeSwitch.setChecked(true);
         }
         else {
@@ -242,8 +241,14 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
     private void getViewValues() {
         mDevice.setName(mItemHolder.nameEdit.getText().toString());
-        mDevice.setIp(mItemHolder.ipEdit.getText().toString());
         mDevice.setMac(mItemHolder.macEdit.getText().toString());
+        mDevice.setIp(mItemHolder.ipEdit.getText().toString());
+        mDevice.setPort(Integer.parseInt(mItemHolder.portEdit.getText().toString()));
+        mDevice.setSSID(mItemHolder.ssidEdit.getText().toString());
+
+        String idleTime = mItemHolder.idleTimeEdit.getText().toString(); 
+        if (idleTime != null && !idleTime.isEmpty())
+            mDevice.setIdleTime(Integer.parseInt(idleTime));
     }
 
     private void initializeItemHolder() {
@@ -258,7 +263,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         itemHolder.ipEdit = (EditText)findViewById(R.id.edit_ip);
         itemHolder.macEdit = (EditText)findViewById(R.id.edit_mac);
         itemHolder.portEdit = (EditText)findViewById(R.id.edit_port);
-        itemHolder.portEdit = (EditText)findViewById(R.id.edit_ssid);
+        itemHolder.ssidEdit = (EditText)findViewById(R.id.edit_ssid);
         itemHolder.idleTimeEdit = (EditText)findViewById(R.id.edit_idle_time);
         
         // TextView

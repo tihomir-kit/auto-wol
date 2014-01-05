@@ -24,10 +24,15 @@ public class DbMapper extends DbConfiguration {
 
         if (cursor != null) {
             device = new Device(
-                cursor.getInt(COL_ROWID),
+                cursor.getLong(COL_ROWID),
                 cursor.getString(COL_NAME),
+                cursor.getString(COL_MAC),
                 cursor.getString(COL_IP),
-                cursor.getString(COL_MAC)
+                cursor.getInt(COL_PORT),
+                cursor.getString(COL_SSID),
+                cursor.getLong(COL_QUIET_FROM),
+                cursor.getLong(COL_QUIET_TO),
+                cursor.getInt(COL_IDLE_TIME)
             );
         }
 
