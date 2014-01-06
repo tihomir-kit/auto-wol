@@ -30,9 +30,9 @@ public class DbMapper extends DbConfiguration {
                 cursor.getString(COL_IP),
                 cursor.getInt(COL_PORT),
                 cursor.getString(COL_SSID),
-                cursor.getLong(COL_QUIET_FROM),
-                cursor.getLong(COL_QUIET_TO),
-                cursor.getInt(COL_IDLE_TIME)
+                cursor.isNull(COL_QUIET_FROM) ? null : cursor.getLong(COL_QUIET_FROM),
+                cursor.isNull(COL_QUIET_TO) ? null : cursor.getLong(COL_QUIET_TO),
+                cursor.isNull(COL_IDLE_TIME) ? null : cursor.getInt(COL_IDLE_TIME)
             );
         }
 

@@ -29,7 +29,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
         initializeItemHolder();
         setDevice();
-        setViewValues();
+        setFormValues();
         registerSwitchCallbacks();
         registerLinearLayoutButtonsCallbacks();
     }
@@ -54,7 +54,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
                 this.finish();
                 break;
             case R.id.action_save:
-                getViewValues();
+                getFormValues();
                 saveDeviceToDb();
                 this.finish();
                 break;
@@ -110,8 +110,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     }
 
     public void showTimePickerDialog(int layoutId) {
-        int hour = getQuietHoursHour(layoutId);
-        int minute = getQuietHoursMinute(layoutId);
+        Integer hour = getQuietHoursHour(layoutId);
+        Integer minute = getQuietHoursMinute(layoutId);
 
         Bundle bundle = createTimePickerBundle(layoutId, hour, minute);
         DialogFragment newFragment = new TimePickerFragment();
@@ -119,8 +119,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         newFragment.show(getFragmentManager(), Integer.toString(layoutId));
     }
 
-    public int getQuietHoursHour(int layoutId) {
-        int hour = layoutId  == R.id.layout_quiet_hours_from ? 0 : 7;
+    public Integer getQuietHoursHour(int layoutId) {
+        Integer hour = layoutId  == R.id.layout_quiet_hours_from ? 0 : 7;
 
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
@@ -136,8 +136,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return hour;
     }
 
-    public int getQuietHoursMinute(int layoutId) {
-        int minute = 0;
+    public Integer getQuietHoursMinute(int layoutId) {
+        Integer minute = 0;
 
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
@@ -201,7 +201,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
     }
 
-    private void setViewValues() {
+    private void setFormValues() {
         mItemHolder.nameEdit.setText(mDevice.getName());
         mItemHolder.macEdit.setText(mDevice.getMac());
 
@@ -234,21 +234,38 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             mItemHolder.idleTimeEdit.setText(mDevice.getIdleTime().toString());
             mItemHolder.idleTimeSwitch.setChecked(true);
         }
-        else {
+        else { 
             mItemHolder.idleTimeLayout.setVisibility(LinearLayout.GONE);
         }
     }
 
-    private void getViewValues() {
+    private void getFormValues() {
         mDevice.setName(mItemHolder.nameEdit.getText().toString());
         mDevice.setMac(mItemHolder.macEdit.getText().toString());
         mDevice.setIp(mItemHolder.ipEdit.getText().toString());
         mDevice.setPort(Integer.parseInt(mItemHolder.portEdit.getText().toString()));
-        mDevice.setSSID(mItemHolder.ssidEdit.getText().toString());
-
-        String idleTime = mItemHolder.idleTimeEdit.getText().toString(); 
-        if (idleTime != null && !idleTime.isEmpty())
-            mDevice.setIdleTime(Integer.parseInt(idleTime));
+        
+        if (mItemHolder.autoWakeSwitch.isChecked()) {
+            mDevice.setSSID(mItemHolder.ssidEdit.getText().toString());
+    
+            if (!mItemHolder.quietHoursSwitch.isChecked()) {
+                mDevice.setQuietHoursFrom(null);
+                mDevice.setQuietHoursTo(null);
+            }
+            
+            if (mItemHolder.idleTimeSwitch.isChecked()) {
+                String idleTime = mItemHolder.idleTimeEdit.getText().toString(); 
+                if (idleTime != null && !idleTime.isEmpty())
+                    mDevice.setIdleTime(Integer.parseInt(idleTime));
+            } else {
+                mDevice.setIdleTime(null);
+            }
+        } else {
+            mDevice.setSSID(null);
+            mDevice.setQuietHoursFrom(null);
+            mDevice.setQuietHoursTo(null);
+            mDevice.setIdleTime(null);
+        }
     }
 
     private void initializeItemHolder() {
