@@ -1,13 +1,19 @@
 package net.cmikavac.autowol;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.models.Device;
 import net.cmikavac.autowol.utils.TimeConverter;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DeviceActivity extends BaseActivity implements OnTimePickedListener {
     private Device mDevice = null;
@@ -53,12 +60,13 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             case android.R.id.home:
                 this.finish();
                 break;
+            case R.id.action_help:
+                displayHelpDialog();
+                break;
             case R.id.action_save:
                 getFormValues();
                 saveDeviceToDb();
                 this.finish();
-                break;
-            case R.id.action_new:
                 break;
         }
         return true;
@@ -227,6 +235,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             mFormItems.quietHoursSwitch.setChecked(true);
         }
         else {
+            Long millisFrom = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
+            Long millisTo = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
+            mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(millisFrom, this));
+            mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(millisTo, this));
             mFormItems.quietHoursLayout.setVisibility(LinearLayout.GONE);
         }
 
@@ -266,6 +278,38 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             mDevice.setQuietHoursTo(null);
             mDevice.setIdleTime(null);
         }
+    }
+
+    private void displayHelpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Help")
+            .setMessage(getHelpHtml())
+            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            }
+        );
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private CharSequence getHelpHtml() {
+        InputStream inputStream;
+        String html = null; 
+
+        try {
+            inputStream = getAssets().open("Help.html");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            html = new String(buffer);
+            inputStream.close();
+        } catch (IOException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        return Html.fromHtml(html);
     }
 
     private void initializeFormItems() {

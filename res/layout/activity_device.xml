@@ -235,8 +235,6 @@
                         android:hint="@string/activity_device_edit_idle_time" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>
