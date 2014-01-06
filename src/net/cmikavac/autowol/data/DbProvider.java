@@ -2,7 +2,7 @@ package net.cmikavac.autowol.data;
 
 import java.util.List;
 
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -33,39 +33,39 @@ public class DbProvider extends DbConfiguration {
         mDbHelper.close();
     }
 
-    // Inserts a new Device record into DB
-    public long insertDevice(Device device) {
+    // Inserts a new DeviceModel record into DB
+    public long insertDevice(DeviceModel device) {
         ContentValues values = setContentValues(device);
         return mDb.insert(DATABASE_TABLE, null, values);
     }
 
-    // Gets a Device record from DB by Device Id
-    public Device getDevice(long id) {
+    // Gets a DeviceModel record from DB by DeviceModel Id
+    public DeviceModel getDevice(long id) {
         String where = KEY_ROWID + "=" + id;
         Cursor cursor = mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        Device device = mDbMapper.mapDevice(cursor); 
+        DeviceModel device = mDbMapper.mapDevice(cursor); 
         cursor.close();
         return device;
     }
 
-    // Gets all Device records from DB
-    public List<Device> getAllDevices() {
+    // Gets all DeviceModel records from DB
+    public List<DeviceModel> getAllDevices() {
         String where = null;
         Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        List<Device> devices = mDbMapper.mapDevices(cursor);
+        List<DeviceModel> devices = mDbMapper.mapDevices(cursor);
         cursor.close();
         return devices;
     }
 
-    public boolean updateDevice(Device device) {
+    public boolean updateDevice(DeviceModel device) {
         String where = KEY_ROWID + "=" + device.getId();
         ContentValues newValues = setContentValues(device);
         return mDb.update(DATABASE_TABLE, newValues, where, null) != 0;
@@ -76,7 +76,7 @@ public class DbProvider extends DbConfiguration {
         return mDb.delete(DATABASE_TABLE, where, null) != 0;
     }
 
-    private ContentValues setContentValues(Device device) {
+    private ContentValues setContentValues(DeviceModel device) {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, device.getName());
         values.put(KEY_MAC, device.getMac());

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.utils.TimeConverter;
 
 import android.app.ActionBar;
@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DeviceActivity extends BaseActivity implements OnTimePickedListener {
-    private Device mDevice = null;
+    private DeviceModel mDevice = null;
     private FormItems mFormItems = null;
 
     @Override
@@ -190,10 +190,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
     private void setDevice() {
         Intent intent = getIntent();
-        Device device = (Device)intent.getSerializableExtra("deviceObject");
+        DeviceModel device = (DeviceModel)intent.getSerializableExtra("deviceObject");
         
         if (device == null) {
-            mDevice = new Device();
+            mDevice = new DeviceModel();
         }
         else {
             mDevice = device;

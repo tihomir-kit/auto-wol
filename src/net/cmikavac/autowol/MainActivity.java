@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.cmikavac.autowol.adapters.DeviceListAdapter;
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends BaseActivity {
-    private List<Device> mDevices = new ArrayList<Device>();
+    private List<DeviceModel> mDevices = new ArrayList<DeviceModel>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
         switch(item.getItemId()) {
             case R.id.action_new:
                 Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-                intent.putExtra("deviceObject", new Device());
+                intent.putExtra("deviceObject", new DeviceModel());
                 startActivity(intent);
                 break;
         }
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
 
     public void populateListView() {
         mDevices = mDbProvider.getAllDevices();
-        ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
+        ArrayAdapter<DeviceModel> adapter = new DeviceListAdapter(this, mDevices);
         ListView list = (ListView)findViewById(R.id.device_list_view);
         list.setAdapter(adapter);
         setEmptyListNotificationVisibility();

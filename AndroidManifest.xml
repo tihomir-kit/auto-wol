@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -30,6 +32,13 @@
             android:name="net.cmikavac.autowol.DeviceActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-        </activity>        
+        </activity>
+        
+        <receiver android:name="net.cmikavac.autowol.services.WifiReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.STATE_CHANGE"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

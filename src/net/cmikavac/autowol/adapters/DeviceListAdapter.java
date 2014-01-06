@@ -5,7 +5,7 @@ import java.util.List;
 import net.cmikavac.autowol.DeviceActivity;
 import net.cmikavac.autowol.R;
 import net.cmikavac.autowol.data.DbProvider;
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.services.WolService;
 
 import android.app.AlertDialog;
@@ -21,12 +21,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class DeviceListAdapter extends ArrayAdapter<Device> {
+public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
     private Context mContext = null;
-    private List<Device> mDevices = null;
+    private List<DeviceModel> mDevices = null;
     private DbProvider mDbProvider = null;
 
-    public DeviceListAdapter(Context context, List<Device> devices) {
+    public DeviceListAdapter(Context context, List<DeviceModel> devices) {
         super(context, R.layout.device_item_view, devices);
         mContext = context;
         mDevices = devices;
@@ -55,7 +55,7 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
     }
 
     private void setItemHolderTextValues(final int position, ItemHolder itemHolder) {
-        Device device = mDevices.get(position);
+        DeviceModel device = mDevices.get(position);
         itemHolder.nameText.setText(device.getName());
         itemHolder.ipText.setText(device.getIp());
         itemHolder.macText.setText(device.getMac());
@@ -108,12 +108,12 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
     }
 
     private void wakeDevice(int position) {
-        Device device = mDevices.get(position);
+        DeviceModel device = mDevices.get(position);
         new WolService(mContext).execute(device);
     }
 
     private void editDevice(int position) {
-        Device device = mDevices.get(position);
+        DeviceModel device = mDevices.get(position);
         Intent intent = new Intent(mContext, DeviceActivity.class);
         intent.putExtra("deviceObject", device);
         mContext.startActivity(intent);
@@ -121,7 +121,7 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
 
     private void deleteDevice(int position) {
         mDbProvider.open();
-        Device device = mDevices.get(position);
+        DeviceModel device = mDevices.get(position);
         mDbProvider.deleteDevice(device.getId());
         mDbProvider.close();
 

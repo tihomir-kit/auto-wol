@@ -3,7 +3,7 @@ package net.cmikavac.autowol.models;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class Device implements Serializable {
+public class DeviceModel implements Serializable {
     private Long mId;
     private String mName;
     private String mMac;
@@ -14,12 +14,12 @@ public class Device implements Serializable {
     private Long mQuietHoursTo;
     private Integer mIdleTime;
     
-    public Device() {
+    public DeviceModel() {
         super();
         this.mId = (long)-1;
     }
     
-    public Device(String name, String mac, String ip, Integer port, 
+    public DeviceModel(String name, String mac, String ip, Integer port, 
             String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mName = name;
@@ -32,7 +32,7 @@ public class Device implements Serializable {
         this.mIdleTime = idleTime;
     }
 
-    public Device(Long id, String name, String mac, String ip, Integer port,
+    public DeviceModel(Long id, String name, String mac, String ip, Integer port,
             String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mId = id;

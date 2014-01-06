@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.Cursor;
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 
 public class DbMapper extends DbConfiguration {
-    public List<Device> mapDevices(Cursor cursor) {
-        List<Device> devices = new ArrayList<Device>();
+    public List<DeviceModel> mapDevices(Cursor cursor) {
+        List<DeviceModel> devices = new ArrayList<DeviceModel>();
         
         if (cursor.moveToFirst()) {
             do {
@@ -19,11 +19,11 @@ public class DbMapper extends DbConfiguration {
         return devices;
     }
     
-    public Device mapDevice(Cursor cursor) {
-        Device device = null;
+    public DeviceModel mapDevice(Cursor cursor) {
+        DeviceModel device = null;
 
         if (cursor != null) {
-            device = new Device(
+            device = new DeviceModel(
                 cursor.getLong(COL_ROWID),
                 cursor.getString(COL_NAME),
                 cursor.getString(COL_MAC),

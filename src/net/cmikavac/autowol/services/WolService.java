@@ -4,13 +4,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import net.cmikavac.autowol.models.Device;
+import net.cmikavac.autowol.models.DeviceModel;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public class WolService extends AsyncTask<Device, Void, String> {
+public class WolService extends AsyncTask<DeviceModel, Void, String> {
     private Context mContext = null;
     
     public WolService(Context context) {
@@ -18,8 +18,8 @@ public class WolService extends AsyncTask<Device, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Device... devices) {
-        Device device = devices[0];
+    protected String doInBackground(DeviceModel... devices) {
+        DeviceModel device = devices[0];
         return Wake(device.getIp(), device.getMac(), 9);
     }
 
