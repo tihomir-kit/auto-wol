@@ -20,7 +20,7 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
     @Override
     protected String doInBackground(DeviceModel... devices) {
         DeviceModel device = devices[0];
-        return Wake(device.getIp(), device.getMac(), 9);
+        return Wake(device.getIp(), device.getMac(), device.getPort());
     }
 
     @Override
