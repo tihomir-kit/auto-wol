@@ -4,6 +4,9 @@
     <string name="app_name">Auto WOL</string>
     <string name="action_settings">Settings</string>
     
+    <!-- activity_main -->
+    <string name="activity_main_empty_list">You haven\'t added any devices yet. New ones can be added by pressing the + button at the upper right corner.</string>
+
     <!--  activity_device -->
     <string name="activity_device_text_name">Name</string>
     <string name="activity_device_edit_name">Home PC</string>

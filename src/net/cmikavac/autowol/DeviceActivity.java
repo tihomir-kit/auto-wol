@@ -20,14 +20,14 @@ import android.widget.TextView;
 
 public class DeviceActivity extends BaseActivity implements OnTimePickedListener {
     private Device mDevice = null;
-    private ItemHolder mItemHolder = null;
+    private FormItems mFormItems = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
 
-        initializeItemHolder();
+        initializeFormItems();
         setDevice();
         setFormValues();
         registerSwitchCallbacks();
@@ -82,9 +82,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             }
         };
 
-        mItemHolder.autoWakeSwitch.setOnCheckedChangeListener(listener);
-        mItemHolder.quietHoursSwitch.setOnCheckedChangeListener(listener);
-        mItemHolder.idleTimeSwitch.setOnCheckedChangeListener(listener);
+        mFormItems.autoWakeSwitch.setOnCheckedChangeListener(listener);
+        mFormItems.quietHoursSwitch.setOnCheckedChangeListener(listener);
+        mFormItems.idleTimeSwitch.setOnCheckedChangeListener(listener);
     }
 
     private void registerLinearLayoutButtonsCallbacks() {
@@ -95,8 +95,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             }
         };
 
-        mItemHolder.quietHoursFromLayout.setOnClickListener(listener);
-        mItemHolder.quietHoursToLayout.setOnClickListener(listener);
+        mFormItems.quietHoursFromLayout.setOnClickListener(listener);
+        mFormItems.quietHoursToLayout.setOnClickListener(listener);
     }
 
     private void toggleLinearLayoutVisibility(int layoutId, boolean isChecked) {
@@ -171,11 +171,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
                 mDevice.setQuietHoursFrom(timeInMillis);
-                mItemHolder.quietHoursFromText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
+                mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
                 break;
             case R.id.layout_quiet_hours_to:
                 mDevice.setQuietHoursTo(timeInMillis);
-                mItemHolder.quietHoursToText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
+                mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
                 break;
         }
     }
@@ -202,59 +202,59 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     }
 
     private void setFormValues() {
-        mItemHolder.nameEdit.setText(mDevice.getName());
-        mItemHolder.macEdit.setText(mDevice.getMac());
+        mFormItems.nameEdit.setText(mDevice.getName());
+        mFormItems.macEdit.setText(mDevice.getMac());
 
         if (mDevice.getIp() != null) {
-            mItemHolder.ipEdit.setText(mDevice.getIp());
+            mFormItems.ipEdit.setText(mDevice.getIp());
         }
 
         if (mDevice.getPort() != null) {
-            mItemHolder.portEdit.setText(mDevice.getPort().toString());
+            mFormItems.portEdit.setText(mDevice.getPort().toString());
         }
 
         if (mDevice.getSSID() != null) {
-            mItemHolder.autoWakeSwitch.setChecked(true);
-            mItemHolder.ssidEdit.setText(mDevice.getSSID());
+            mFormItems.autoWakeSwitch.setChecked(true);
+            mFormItems.ssidEdit.setText(mDevice.getSSID());
         }
         else {
-            mItemHolder.autoWakeLayout.setVisibility(LinearLayout.GONE);
+            mFormItems.autoWakeLayout.setVisibility(LinearLayout.GONE);
         }
 
         if (mDevice.getQuietHoursFrom() != null) {
-            mItemHolder.quietHoursFromText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursFrom(), this));
-            mItemHolder.quietHoursToText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursTo(), this));
-            mItemHolder.quietHoursSwitch.setChecked(true);
+            mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursFrom(), this));
+            mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursTo(), this));
+            mFormItems.quietHoursSwitch.setChecked(true);
         }
         else {
-            mItemHolder.quietHoursLayout.setVisibility(LinearLayout.GONE);
+            mFormItems.quietHoursLayout.setVisibility(LinearLayout.GONE);
         }
 
         if (mDevice.getIdleTime() != null) {
-            mItemHolder.idleTimeEdit.setText(mDevice.getIdleTime().toString());
-            mItemHolder.idleTimeSwitch.setChecked(true);
+            mFormItems.idleTimeEdit.setText(mDevice.getIdleTime().toString());
+            mFormItems.idleTimeSwitch.setChecked(true);
         }
         else { 
-            mItemHolder.idleTimeLayout.setVisibility(LinearLayout.GONE);
+            mFormItems.idleTimeLayout.setVisibility(LinearLayout.GONE);
         }
     }
 
     private void getFormValues() {
-        mDevice.setName(mItemHolder.nameEdit.getText().toString());
-        mDevice.setMac(mItemHolder.macEdit.getText().toString());
-        mDevice.setIp(mItemHolder.ipEdit.getText().toString());
-        mDevice.setPort(Integer.parseInt(mItemHolder.portEdit.getText().toString()));
+        mDevice.setName(mFormItems.nameEdit.getText().toString());
+        mDevice.setMac(mFormItems.macEdit.getText().toString());
+        mDevice.setIp(mFormItems.ipEdit.getText().toString());
+        mDevice.setPort(Integer.parseInt(mFormItems.portEdit.getText().toString()));
         
-        if (mItemHolder.autoWakeSwitch.isChecked()) {
-            mDevice.setSSID(mItemHolder.ssidEdit.getText().toString());
+        if (mFormItems.autoWakeSwitch.isChecked()) {
+            mDevice.setSSID(mFormItems.ssidEdit.getText().toString());
     
-            if (!mItemHolder.quietHoursSwitch.isChecked()) {
+            if (!mFormItems.quietHoursSwitch.isChecked()) {
                 mDevice.setQuietHoursFrom(null);
                 mDevice.setQuietHoursTo(null);
             }
             
-            if (mItemHolder.idleTimeSwitch.isChecked()) {
-                String idleTime = mItemHolder.idleTimeEdit.getText().toString(); 
+            if (mFormItems.idleTimeSwitch.isChecked()) {
+                String idleTime = mFormItems.idleTimeEdit.getText().toString(); 
                 if (idleTime != null && !idleTime.isEmpty())
                     mDevice.setIdleTime(Integer.parseInt(idleTime));
             } else {
@@ -268,41 +268,41 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
     }
 
-    private void initializeItemHolder() {
-        mItemHolder = createItemHolder();
+    private void initializeFormItems() {
+        mFormItems = createFormItems();
     }
     
-    private ItemHolder createItemHolder() {
-        ItemHolder itemHolder = new ItemHolder();
+    private FormItems createFormItems() {
+        FormItems formItems = new FormItems();
         
         // EditText
-        itemHolder.nameEdit = (EditText)findViewById(R.id.edit_name);
-        itemHolder.ipEdit = (EditText)findViewById(R.id.edit_ip);
-        itemHolder.macEdit = (EditText)findViewById(R.id.edit_mac);
-        itemHolder.portEdit = (EditText)findViewById(R.id.edit_port);
-        itemHolder.ssidEdit = (EditText)findViewById(R.id.edit_ssid);
-        itemHolder.idleTimeEdit = (EditText)findViewById(R.id.edit_idle_time);
+        formItems.nameEdit = (EditText)findViewById(R.id.edit_name);
+        formItems.ipEdit = (EditText)findViewById(R.id.edit_ip);
+        formItems.macEdit = (EditText)findViewById(R.id.edit_mac);
+        formItems.portEdit = (EditText)findViewById(R.id.edit_port);
+        formItems.ssidEdit = (EditText)findViewById(R.id.edit_ssid);
+        formItems.idleTimeEdit = (EditText)findViewById(R.id.edit_idle_time);
         
         // TextView
-        itemHolder.quietHoursFromText = (TextView)findViewById(R.id.text_quiet_hours_from);
-        itemHolder.quietHoursToText = (TextView)findViewById(R.id.text_quiet_hours_to);
+        formItems.quietHoursFromText = (TextView)findViewById(R.id.text_quiet_hours_from);
+        formItems.quietHoursToText = (TextView)findViewById(R.id.text_quiet_hours_to);
         
         // LinearLayout
-        itemHolder.autoWakeLayout = (LinearLayout)findViewById(R.id.layout_auto_wake);
-        itemHolder.quietHoursLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours);
-        itemHolder.quietHoursFromLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_from);
-        itemHolder.quietHoursToLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_to);
-        itemHolder.idleTimeLayout = (LinearLayout)findViewById(R.id.layout_idle_time);
+        formItems.autoWakeLayout = (LinearLayout)findViewById(R.id.layout_auto_wake);
+        formItems.quietHoursLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours);
+        formItems.quietHoursFromLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_from);
+        formItems.quietHoursToLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_to);
+        formItems.idleTimeLayout = (LinearLayout)findViewById(R.id.layout_idle_time);
         
         // Switch
-        itemHolder.autoWakeSwitch = (Switch)findViewById(R.id.switch_auto_wake);
-        itemHolder.quietHoursSwitch = (Switch)findViewById(R.id.switch_quiet_hours);
-        itemHolder.idleTimeSwitch = (Switch)findViewById(R.id.switch_idle_time);
+        formItems.autoWakeSwitch = (Switch)findViewById(R.id.switch_auto_wake);
+        formItems.quietHoursSwitch = (Switch)findViewById(R.id.switch_quiet_hours);
+        formItems.idleTimeSwitch = (Switch)findViewById(R.id.switch_idle_time);
 
-        return itemHolder;
+        return formItems;
     }
 
-    private class ItemHolder {
+    private class FormItems {
         // EditText
         EditText nameEdit;
         EditText ipEdit;

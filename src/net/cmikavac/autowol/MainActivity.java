@@ -10,8 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends BaseActivity {
     private List<Device> mDevices = new ArrayList<Device>();
@@ -32,7 +34,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         menu.findItem(R.id.action_save).setVisible(false);
         menu.findItem(R.id.action_help).setVisible(false);
@@ -57,5 +58,15 @@ public class MainActivity extends BaseActivity {
         ArrayAdapter<Device> adapter = new DeviceListAdapter(this, mDevices);
         ListView list = (ListView)findViewById(R.id.device_list_view);
         list.setAdapter(adapter);
+        setEmptyListNotificationVisibility();
+    }
+
+    private void setEmptyListNotificationVisibility() {
+        TextView notification = (TextView)findViewById(R.id.text_empty_list);
+        if (!mDevices.isEmpty()) {
+            notification.setVisibility(View.GONE);
+        } else {
+            notification.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -8,13 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+    <TextView
+        android:id="@+id/text_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_empty_list"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <ListView
         android:id="@+id/device_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/text_empty_list"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:hapticFeedbackEnabled="true" >
-    </ListView>
+        android:hapticFeedbackEnabled="true" />
 
 </RelativeLayout>

@@ -137,7 +137,6 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
         return itemHolder;
     }
 
-    // probat ovo skratit kroz konstruktor da se proslijedi textview
     private class ItemHolder {
         TextView nameText;
         TextView ipText;
