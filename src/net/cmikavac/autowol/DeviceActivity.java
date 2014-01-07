@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.models.DeviceModel;
+import net.cmikavac.autowol.utils.CustomTextWatcher;
 import net.cmikavac.autowol.utils.TimeConverter;
 
 import android.app.ActionBar;
@@ -15,7 +16,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +41,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         setFormValues();
         registerSwitchCallbacks();
         registerLinearLayoutButtonsCallbacks();
-        //registerAfterTextChangedCallbacks();
+        registerAfterTextChangedCallbacks();
     }
 
     @Override
@@ -113,17 +113,12 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     }
 
     private void registerAfterTextChangedCallbacks() {
-        final TextWatcher watcher = new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable editable) { }
-            @Override
-            public void beforeTextChanged(CharSequence sequence, int start, int count, int after) {}
-    
-            @Override
-            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                
-            }
-        };
+        mFormItems.nameEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.nameEdit));
+        mFormItems.macEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.macEdit));
+        mFormItems.ipEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.ipEdit));
+        mFormItems.portEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.portEdit));
+        mFormItems.ssidEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.ssidEdit));
+        mFormItems.idleTimeEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.idleTimeEdit));
     }
 
     private void toggleLinearLayoutVisibility(int layoutId, boolean isChecked) {
