@@ -7,6 +7,7 @@ import net.cmikavac.autowol.R;
 import net.cmikavac.autowol.data.DbProvider;
 import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.services.WolService;
+import net.cmikavac.autowol.utils.TimeConverter;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -59,6 +60,22 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         itemHolder.nameText.setText(device.getName());
         itemHolder.ipText.setText(device.getIp());
         itemHolder.macText.setText(device.getMac());
+        itemHolder.portText.setText("Port: " + device.getPort());
+
+        if (device.getSSID() != null) {
+            itemHolder.ssidText.setText("SSID: " + device.getSSID());
+        }
+
+        if (device.getQuietHoursFrom() != null) {
+            String hoursFrom = TimeConverter.getFormatedTime(device.getQuietHoursFrom(), mContext);
+            String hoursTo = TimeConverter.getFormatedTime(device.getQuietHoursTo(), mContext);
+            String quietHours = "QH: " + hoursFrom + " to " + hoursTo;
+            itemHolder.quietHoursText.setText(quietHours);
+        }
+        
+        if (device.getIdleTime() != null) {
+            itemHolder.idleTimeText.setText("Idle time: " + device.getIdleTime() + " (min)");
+        }
     }
 
     private void registerOnClickListener(final int position, View itemView) {
@@ -134,6 +151,10 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         itemHolder.nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
         itemHolder.ipText = (TextView)itemView.findViewById(R.id.device_item_txt_ip);
         itemHolder.macText = (TextView)itemView.findViewById(R.id.device_item_txt_mac);
+        itemHolder.portText = (TextView)itemView.findViewById(R.id.device_item_txt_port);
+        itemHolder.ssidText = (TextView)itemView.findViewById(R.id.device_item_txt_ssid);
+        itemHolder.quietHoursText = (TextView)itemView.findViewById(R.id.device_item_txt_quiet_hours);
+        itemHolder.idleTimeText = (TextView)itemView.findViewById(R.id.device_item_txt_idle_time);
         return itemHolder;
     }
 
@@ -141,5 +162,9 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         TextView nameText;
         TextView ipText;
         TextView macText;
+        TextView portText;
+        TextView ssidText;
+        TextView quietHoursText;
+        TextView idleTimeText;
     }
 }

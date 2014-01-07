@@ -21,7 +21,7 @@ public class TimeConverter {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
-    
+
     private static DateFormat getFormatter(Context context) {
         String format = android.text.format.DateFormat.is24HourFormat(context) ? "HH:mm" : "hh:mm aa";
         return new SimpleDateFormat(format, Locale.getDefault());

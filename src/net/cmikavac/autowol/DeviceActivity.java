@@ -250,7 +250,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
         else {
             Long millisFrom = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
-            Long millisTo = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
+            Long millisTo = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_to), 0);
             mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(millisFrom, this));
             mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(millisTo, this));
             mFormItems.quietHoursLayout.setVisibility(LinearLayout.GONE);
@@ -365,6 +365,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         );
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        TextView textView = (TextView)alertDialog.findViewById(android.R.id.message);
+        textView.setTextSize(12);
     }
 
     private CharSequence getHelpHtml() {

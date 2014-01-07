@@ -28,4 +28,12 @@
     <string name="activity_device_text_idle_time">Time disconnected before Auto-Wake (minutes)</string>
     <string name="activity_device_edit_idle_time">120</string>
 
+    <!--  device_item_view -->
+    <string name="device_item_view_name">Device name</string>
+    <string name="device_item_view_mac">AB:CD:EF:12:34:56</string>
+    <string name="device_item_view_ip">192.168.1.255</string>
+    <string name="device_item_view_port">Port: 9</string>
+    <string name="device_item_view_ssid">SSID not set</string>
+    <string name="device_item_view_quiet_hours">Quiet hours not set</string>
+    <string name="device_item_view_idle_time">Idle time not set</string>
 </resources>
