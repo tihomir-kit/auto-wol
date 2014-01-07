@@ -232,7 +232,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/activity_device_edit_idle_time" />
+                        android:hint="@string/activity_device_edit_idle_time"
+                        android:inputType="number" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

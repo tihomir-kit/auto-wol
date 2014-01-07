@@ -13,7 +13,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         setFormValues();
         registerSwitchCallbacks();
         registerLinearLayoutButtonsCallbacks();
+        //registerAfterTextChangedCallbacks();
     }
 
     @Override
@@ -64,9 +67,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
                 displayHelpDialog();
                 break;
             case R.id.action_save:
-                getFormValues();
-                saveDeviceToDb();
-                this.finish();
+                if (validateFormValues()) {
+                    getFormValues();
+                    saveDeviceToDb();
+                    this.finish();
+                }
                 break;
         }
         return true;
@@ -105,6 +110,20 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
         mFormItems.quietHoursFromLayout.setOnClickListener(listener);
         mFormItems.quietHoursToLayout.setOnClickListener(listener);
+    }
+
+    private void registerAfterTextChangedCallbacks() {
+        final TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) { }
+            @Override
+            public void beforeTextChanged(CharSequence sequence, int start, int count, int after) {}
+    
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                
+            }
+        };
     }
 
     private void toggleLinearLayoutVisibility(int layoutId, boolean isChecked) {
@@ -256,7 +275,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mDevice.setMac(mFormItems.macEdit.getText().toString());
         mDevice.setIp(mFormItems.ipEdit.getText().toString());
         mDevice.setPort(Integer.parseInt(mFormItems.portEdit.getText().toString()));
-        
+
         if (mFormItems.autoWakeSwitch.isChecked()) {
             mDevice.setSSID(mFormItems.ssidEdit.getText().toString());
     
@@ -264,11 +283,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
                 mDevice.setQuietHoursFrom(null);
                 mDevice.setQuietHoursTo(null);
             }
-            
+
             if (mFormItems.idleTimeSwitch.isChecked()) {
-                String idleTime = mFormItems.idleTimeEdit.getText().toString(); 
-                if (idleTime != null && !idleTime.isEmpty())
-                    mDevice.setIdleTime(Integer.parseInt(idleTime));
+                mDevice.setIdleTime(Integer.parseInt(mFormItems.idleTimeEdit.getText().toString()));
             } else {
                 mDevice.setIdleTime(null);
             }
@@ -278,6 +295,67 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             mDevice.setQuietHoursTo(null);
             mDevice.setIdleTime(null);
         }
+    }
+
+    private Boolean validateFormValues() {
+        Boolean isValid = true;
+        resetFormErrors();
+
+        // Name
+        Editable name = mFormItems.nameEdit.getText(); 
+        if (name == null || name.toString().isEmpty()) {
+            mFormItems.nameEdit.setError("Name is required");
+            isValid = false;
+        }
+
+        // Mac
+        Editable mac = mFormItems.macEdit.getText();
+        if (mac == null || mac.toString().isEmpty()) {
+            mFormItems.macEdit.setError("Mac address is required");
+            isValid = false;
+        }
+
+        // Ip
+        Editable ip = mFormItems.ipEdit.getText();
+        if (ip == null || ip.toString().isEmpty()) {
+            mFormItems.ipEdit.setError("IP address is required");
+            isValid = false;
+        }
+
+        // Port
+        Editable port = mFormItems.portEdit.getText();
+        if (port == null || port.toString().isEmpty()) {
+            mFormItems.portEdit.setError("Port is required");
+            isValid = false;
+        }
+
+        if (mFormItems.autoWakeSwitch.isChecked()) {
+            // SSID
+            Editable ssid = mFormItems.ssidEdit.getText();
+            if (ssid == null || ssid.toString().isEmpty()) {
+                mFormItems.ssidEdit.setError("SSID is required");
+                isValid = false;
+            }
+
+            // Idle time
+            if (mFormItems.idleTimeSwitch.isChecked()) {
+                Editable idleTime = mFormItems.idleTimeEdit.getText();
+                if (idleTime == null || idleTime.toString().isEmpty()) {
+                    mFormItems.idleTimeEdit.setError("Idle time is required");
+                    isValid = false;
+                }
+            }
+        }
+
+        return isValid;
+    }
+
+    private void resetFormErrors() {
+        mFormItems.nameEdit.setError(null);
+        mFormItems.macEdit.setError(null);
+        mFormItems.ipEdit.setError(null);
+        mFormItems.portEdit.setError(null);
+        mFormItems.nameEdit.setError(null);
     }
 
     private void displayHelpDialog() {
