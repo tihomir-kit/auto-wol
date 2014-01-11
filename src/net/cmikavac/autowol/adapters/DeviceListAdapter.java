@@ -7,7 +7,7 @@ import net.cmikavac.autowol.R;
 import net.cmikavac.autowol.data.DbProvider;
 import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.services.WolService;
-import net.cmikavac.autowol.utils.TimeConverter;
+import net.cmikavac.autowol.utils.TimeUtil;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -67,8 +67,8 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         }
 
         if (device.getQuietHoursFrom() != null) {
-            String hoursFrom = TimeConverter.getFormatedTime(device.getQuietHoursFrom(), mContext);
-            String hoursTo = TimeConverter.getFormatedTime(device.getQuietHoursTo(), mContext);
+            String hoursFrom = TimeUtil.getFormatedTime(device.getQuietHoursFrom(), mContext);
+            String hoursTo = TimeUtil.getFormatedTime(device.getQuietHoursTo(), mContext);
             String quietHours = "QH: " + hoursFrom + " to " + hoursTo;
             itemHolder.quietHoursText.setText(quietHours);
         }

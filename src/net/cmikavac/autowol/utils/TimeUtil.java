@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import android.content.Context;
 
-public class TimeConverter {
+public class TimeUtil {
     public static Long getTimeInMilliseconds(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -37,5 +37,23 @@ public class TimeConverter {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return calendar.get(Calendar.MINUTE);
+    }
+
+    public static Boolean isNowBetweenQuietHours(Long quietFrom, Long quietTo) {
+        Calendar timeNow = Calendar.getInstance();
+
+        Calendar timeFrom = Calendar.getInstance();
+        timeFrom.set(Calendar.HOUR_OF_DAY, getHourFromMilliseconds(quietFrom));
+        timeFrom.set(Calendar.MINUTE, getMinuteFromMilliseconds(quietFrom));
+
+        Calendar timeTo = Calendar.getInstance();
+        timeTo.set(Calendar.HOUR_OF_DAY, getHourFromMilliseconds(quietTo));
+        timeTo.set(Calendar.MINUTE, getMinuteFromMilliseconds(quietTo));
+
+        if (timeTo.before(timeFrom)) {
+            timeTo.add(Calendar.DATE, 1);
+        }
+
+        return timeNow.after(timeFrom) && timeNow.before(timeTo) ? true : false;
     }
 }

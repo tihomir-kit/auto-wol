@@ -22,6 +22,7 @@ public class DbConfiguration {
     public static final String KEY_QUIET_FROM = "quiet_from";
     public static final String KEY_QUIET_TO = "quiet_to";
     public static final String KEY_IDLE_TIME = "idle_time";
+    public static final String KEY_LAST_DISCONNECTED = "last_disconnected";
 
     // "device" table field numbers
     public static final int COL_NAME = 1;
@@ -32,9 +33,10 @@ public class DbConfiguration {
     public static final int COL_QUIET_FROM = 6;
     public static final int COL_QUIET_TO = 7;
     public static final int COL_IDLE_TIME = 8;
+    public static final int COL_LAST_DISCONNECTED = 9;
 
     public static final String[] ALL_KEYS = new String[] {
-        KEY_ROWID, KEY_NAME, KEY_MAC, KEY_IP, KEY_PORT, KEY_SSID, KEY_QUIET_FROM, KEY_QUIET_TO, KEY_IDLE_TIME
+        KEY_ROWID, KEY_NAME, KEY_MAC, KEY_IP, KEY_PORT, KEY_SSID, KEY_QUIET_FROM, KEY_QUIET_TO, KEY_IDLE_TIME, KEY_LAST_DISCONNECTED
     };
 
     protected static final String DATABASE_CREATE_SQL = 
@@ -47,6 +49,7 @@ public class DbConfiguration {
         + KEY_SSID + " string null, "
         + KEY_QUIET_FROM + " integer null, "
         + KEY_QUIET_TO + " integer null, "
-        + KEY_IDLE_TIME + " integer null"
+        + KEY_IDLE_TIME + " integer null, "
+        + KEY_LAST_DISCONNECTED + " integer null"
         + ");";
 }

@@ -13,6 +13,7 @@ public class DeviceModel implements Serializable {
     private Long mQuietHoursFrom;
     private Long mQuietHoursTo;
     private Integer mIdleTime;
+    private Long mLastDisconnected;
     
     public DeviceModel() {
         super();
@@ -32,8 +33,8 @@ public class DeviceModel implements Serializable {
         this.mIdleTime = idleTime;
     }
 
-    public DeviceModel(Long id, String name, String mac, String ip, Integer port,
-            String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
+    public DeviceModel(Long id, String name, String mac, String ip, Integer port, String ssid, 
+            Long quietHoursFrom, Long quietHoursTo, Integer idleTime, Long lastDisconnected) {
         super();
         this.mId = id;
         this.mName = name;
@@ -44,6 +45,7 @@ public class DeviceModel implements Serializable {
         this.mQuietHoursFrom = quietHoursFrom;
         this.mQuietHoursTo = quietHoursTo;
         this.mIdleTime = idleTime;
+        this.mLastDisconnected = lastDisconnected;
     }
 
     public long getId() {
@@ -116,5 +118,13 @@ public class DeviceModel implements Serializable {
 
     public void setIdleTime(Integer idleTime) {
         this.mIdleTime = idleTime;
+    }
+    
+    public Long getLastDisconnected() {
+        return mLastDisconnected;
+    }
+    
+    public void setLastDisconnected(Long lastDisconnected) {
+        this.mLastDisconnected = lastDisconnected;
     }
 }

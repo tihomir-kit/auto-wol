@@ -6,7 +6,7 @@ import java.io.InputStream;
 import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.utils.CustomTextWatcher;
-import net.cmikavac.autowol.utils.TimeConverter;
+import net.cmikavac.autowol.utils.TimeUtil;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -147,11 +147,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
                 if (mDevice.getQuietHoursFrom() != null)
-                    hour = TimeConverter.getHourFromMilliseconds(mDevice.getQuietHoursFrom());
+                    hour = TimeUtil.getHourFromMilliseconds(mDevice.getQuietHoursFrom());
                 break;
             case R.id.layout_quiet_hours_to:
                 if (mDevice.getQuietHoursTo() != null)
-                    hour = TimeConverter.getHourFromMilliseconds(mDevice.getQuietHoursTo());
+                    hour = TimeUtil.getHourFromMilliseconds(mDevice.getQuietHoursTo());
                 break;
         }
 
@@ -164,11 +164,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
                 if (mDevice.getQuietHoursFrom() != null)
-                    minute = TimeConverter.getMinuteFromMilliseconds(mDevice.getQuietHoursFrom());
+                    minute = TimeUtil.getMinuteFromMilliseconds(mDevice.getQuietHoursFrom());
                 break;
             case R.id.layout_quiet_hours_to:
                 if (mDevice.getQuietHoursTo() != null)
-                    minute = TimeConverter.getMinuteFromMilliseconds(mDevice.getQuietHoursTo());
+                    minute = TimeUtil.getMinuteFromMilliseconds(mDevice.getQuietHoursTo());
                 break;
         }
 
@@ -185,7 +185,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
     @Override
     public void onTimePicked(int layoutId, int hour, int minute) {
-        Long timeInMillis = TimeConverter.getTimeInMilliseconds(hour, minute);
+        Long timeInMillis = TimeUtil.getTimeInMilliseconds(hour, minute);
         setQuietHoursValues(layoutId, timeInMillis);
     }
 
@@ -193,11 +193,11 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
                 mDevice.setQuietHoursFrom(timeInMillis);
-                mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
+                mFormItems.quietHoursFromText.setText(TimeUtil.getFormatedTime(timeInMillis, this));
                 break;
             case R.id.layout_quiet_hours_to:
                 mDevice.setQuietHoursTo(timeInMillis);
-                mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(timeInMillis, this));
+                mFormItems.quietHoursToText.setText(TimeUtil.getFormatedTime(timeInMillis, this));
                 break;
         }
     }
@@ -244,15 +244,17 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
 
         if (mDevice.getQuietHoursFrom() != null) {
-            mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursFrom(), this));
-            mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(mDevice.getQuietHoursTo(), this));
+            mFormItems.quietHoursFromText.setText(TimeUtil.getFormatedTime(mDevice.getQuietHoursFrom(), this));
+            mFormItems.quietHoursToText.setText(TimeUtil.getFormatedTime(mDevice.getQuietHoursTo(), this));
             mFormItems.quietHoursSwitch.setChecked(true);
         }
         else {
-            Long millisFrom = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
-            Long millisTo = TimeConverter.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_to), 0);
-            mFormItems.quietHoursFromText.setText(TimeConverter.getFormatedTime(millisFrom, this));
-            mFormItems.quietHoursToText.setText(TimeConverter.getFormatedTime(millisTo, this));
+            Long millisFrom = TimeUtil.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_from), 0);
+            Long millisTo = TimeUtil.getTimeInMilliseconds(getQuietHoursHour(R.id.layout_quiet_hours_to), 0);
+            mDevice.setQuietHoursFrom(millisFrom);
+            mDevice.setQuietHoursTo(millisTo);
+            mFormItems.quietHoursFromText.setText(TimeUtil.getFormatedTime(millisFrom, this));
+            mFormItems.quietHoursToText.setText(TimeUtil.getFormatedTime(millisTo, this));
             mFormItems.quietHoursLayout.setVisibility(LinearLayout.GONE);
         }
 

@@ -54,8 +54,20 @@ public class DbProvider extends DbConfiguration {
 
     // Gets all DeviceModel records from DB
     public List<DeviceModel> getAllDevices() {
-        String where = null;
-        Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
+        Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, null, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        List<DeviceModel> devices = mDbMapper.mapDevices(cursor);
+        cursor.close();
+        return devices;
+    }
+
+    public List<DeviceModel> getDevicesBySSID(String ssid) {
+        String where = KEY_SSID + "=?";
+        String[] whereArgs = new String[] { ssid };
+        Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, whereArgs, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
