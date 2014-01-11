@@ -9,17 +9,17 @@ import android.content.Context;
 
 public class TimeUtil {
     public static Long getTimeInMilliseconds(int hour, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        return calendar.getTimeInMillis(); 
+        Calendar time = Calendar.getInstance();
+        time.set(Calendar.HOUR_OF_DAY, hour);
+        time.set(Calendar.MINUTE, minute);
+        return time.getTimeInMillis(); 
     }
 
     public static String getFormatedTime(Long milliSeconds, Context context) {
         DateFormat formatter = getFormatter(context);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(milliSeconds);
-        return formatter.format(calendar.getTime());
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(milliSeconds);
+        return formatter.format(time.getTime());
     }
 
     private static DateFormat getFormatter(Context context) {
@@ -28,15 +28,15 @@ public class TimeUtil {
     }
 
     public static int getHourFromMilliseconds(Long milliSeconds) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(milliSeconds);
-        return calendar.get(Calendar.HOUR_OF_DAY);
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(milliSeconds);
+        return time.get(Calendar.HOUR_OF_DAY);
     }
 
     public static int getMinuteFromMilliseconds(Long milliSeconds) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(milliSeconds);
-        return calendar.get(Calendar.MINUTE);
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(milliSeconds);
+        return time.get(Calendar.MINUTE);
     }
 
     public static Boolean isNowBetweenQuietHours(Long quietFrom, Long quietTo) {
@@ -55,5 +55,19 @@ public class TimeUtil {
         }
 
         return timeNow.after(timeFrom) && timeNow.before(timeTo) ? true : false;
+    }
+    
+    public static Boolean hasIdleTimePassed(Integer idleTime, Long lastDisconnected) {
+        android.util.Log.d("Test", "4");
+        if (lastDisconnected.equals(null))
+            return true;
+        android.util.Log.d("Test", "5");
+        Calendar timeIdle = Calendar.getInstance();
+        timeIdle.add(Calendar.MINUTE, -1 * idleTime);
+
+        Calendar timeDisconnected = Calendar.getInstance();
+        timeDisconnected.setTimeInMillis(lastDisconnected);
+
+        return timeDisconnected.before(timeIdle);
     }
 }

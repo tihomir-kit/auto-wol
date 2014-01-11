@@ -34,15 +34,20 @@
             android:id="@+id/layout_linear_device_info_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp" >
 
             <TextView
                 android:id="@+id/device_item_txt_mac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingLeft="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingRight="8dp"
+                android:singleLine="true"
                 android:text="@string/device_item_view_mac"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -51,25 +56,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingRight="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/device_item_view_ssid"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_linear_device_info_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp" >
 
             <TextView
                 android:id="@+id/device_item_txt_ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingLeft="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/device_item_view_ip"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -78,26 +89,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingRight="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/device_item_view_quiet_hours"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_linear_device_info_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp" >
 
             <TextView
                 android:id="@+id/device_item_txt_port"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingBottom="2dp"
-                android:paddingLeft="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/device_item_view_port"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -106,11 +123,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:paddingBottom="2dp"
-                android:paddingRight="8dp"
-                android:paddingTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/device_item_view_idle_time"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
     </LinearLayout>
 

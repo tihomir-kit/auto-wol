@@ -1,5 +1,6 @@
 package net.cmikavac.autowol.services;
 
+import java.util.Calendar;
 import java.util.List;
 
 import net.cmikavac.autowol.data.DbProvider;
@@ -56,8 +57,7 @@ public class WifiReceiver extends BroadcastReceiver {
 
     private void onWifiDisconnected() {
         String ssid = mSharedPreferencesProvider.getLastSSID();
-        // TODO: update db records for ssid (set last disconnected timestamp)
-
+        mDbProvider.updateDevicesLastDisconnected(ssid, Calendar.getInstance().getTimeInMillis());
         mDbProvider.close();
     }
     
@@ -74,10 +74,18 @@ public class WifiReceiver extends BroadcastReceiver {
     
     private void wakeDevice(DeviceModel device, WolService wolService) {
         Boolean isNowBetweenQuietHours = TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
+        Boolean hasIdleTimePassed = true;
+
+        if (device.getIdleTime() != null) {
+            hasIdleTimePassed = TimeUtil.hasIdleTimePassed(device.getIdleTime(), device.getLastDisconnected());
+        }
+
         if (device.getQuietHoursFrom() != null) {
-            if (!isNowBetweenQuietHours) {
+            if (!isNowBetweenQuietHours && hasIdleTimePassed) {
                 wolService.execute(device);
             }
+        } else if (hasIdleTimePassed) {
+            wolService.execute(device);
         }
     }
 }

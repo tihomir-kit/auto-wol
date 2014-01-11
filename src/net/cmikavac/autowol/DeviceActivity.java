@@ -369,7 +369,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         alertDialog.show();
 
         TextView textView = (TextView)alertDialog.findViewById(android.R.id.message);
-        textView.setTextSize(12);
+        textView.setTextSize(14);
     }
 
     private CharSequence getHelpHtml() {

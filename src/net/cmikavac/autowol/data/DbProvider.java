@@ -65,9 +65,8 @@ public class DbProvider extends DbConfiguration {
     }
 
     public List<DeviceModel> getDevicesBySSID(String ssid) {
-        String where = KEY_SSID + "=?";
-        String[] whereArgs = new String[] { ssid };
-        Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, whereArgs, null, null, null, null);
+        String where = KEY_SSID + "='" + ssid + "'";
+        Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -80,6 +79,13 @@ public class DbProvider extends DbConfiguration {
     public boolean updateDevice(DeviceModel device) {
         String where = KEY_ROWID + "=" + device.getId();
         ContentValues newValues = setContentValues(device);
+        return mDb.update(DATABASE_TABLE, newValues, where, null) != 0;
+    }
+
+    public boolean updateDevicesLastDisconnected(String ssid, Long currentTimeInMillis) {
+        String where = KEY_SSID + "='" + ssid + "'";
+        ContentValues newValues = new ContentValues();
+        newValues.put(KEY_LAST_DISCONNECTED, currentTimeInMillis);
         return mDb.update(DATABASE_TABLE, newValues, where, null) != 0;
     }
 
