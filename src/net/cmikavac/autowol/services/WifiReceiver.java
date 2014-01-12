@@ -76,7 +76,7 @@ public class WifiReceiver extends BroadcastReceiver {
         Boolean hasIdleTimePassed = true;
 
         if (device.getQuietHoursFrom() != null) {
-            TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
+            isNowBetweenQuietHours = TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
         }
         
         if (device.getIdleTime() != null) {
