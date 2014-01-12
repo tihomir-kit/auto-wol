@@ -41,20 +41,19 @@ public class TimeUtil {
 
     public static Boolean isNowBetweenQuietHours(Long quietFrom, Long quietTo) {
         Calendar timeNow = Calendar.getInstance();
-        android.util.Log.d("Test", "1");
+
         Calendar timeFrom = Calendar.getInstance();
-        android.util.Log.d("Test", Long.toString(quietFrom) + " " + Long.toString(quietTo));
         timeFrom.set(Calendar.HOUR_OF_DAY, getHourFromMilliseconds(quietFrom));
         timeFrom.set(Calendar.MINUTE, getMinuteFromMilliseconds(quietFrom));
-        android.util.Log.d("Test", "2");
+
         Calendar timeTo = Calendar.getInstance();
         timeTo.set(Calendar.HOUR_OF_DAY, getHourFromMilliseconds(quietTo));
         timeTo.set(Calendar.MINUTE, getMinuteFromMilliseconds(quietTo));
-        android.util.Log.d("Test", "3");
+
         if (timeTo.before(timeFrom)) {
             timeTo.add(Calendar.DATE, 1);
         }
-        android.util.Log.d("Test", "4");
+
         return timeNow.after(timeFrom) && timeNow.before(timeTo) ? true : false;
     }
     

@@ -62,34 +62,33 @@ public class WifiReceiver extends BroadcastReceiver {
     }
     
     private void wakeDevices(String ssid) {
-        WolService wolService = new WolService(mContext);
         List<DeviceModel> devices = mDbProvider.getDevicesBySSID(ssid);
 
         for (DeviceModel device : devices) {
-            wakeDevice(device, wolService);
+            wakeDevice(device);
         }
 
         mDbProvider.close();
     }
     
-    private void wakeDevice(DeviceModel device, WolService wolService) {
-        Boolean isNowBetweenQuietHours = true;
+    private void wakeDevice(DeviceModel device) {
+        Boolean isNowBetweenQuietHours = false;
         Boolean hasIdleTimePassed = true;
 
         if (device.getQuietHoursFrom() != null) {
             TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
         }
-
+        
         if (device.getIdleTime() != null) {
             hasIdleTimePassed = TimeUtil.hasIdleTimePassed(device.getIdleTime(), device.getLastDisconnected());
         }
 
         if (device.getQuietHoursFrom() != null) {
             if (!isNowBetweenQuietHours && hasIdleTimePassed) {
-                wolService.execute(device);
+                new WolService(mContext).execute(device);
             }
         } else if (hasIdleTimePassed) {
-            wolService.execute(device);
+            new WolService(mContext).execute(device);
         }
     }
 }
