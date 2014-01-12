@@ -10,8 +10,8 @@ A simple android Wake-on-Lan application which can wake your device up automatic
 * idle-time (period from last Wi-Fi disconnect during which automatic WOL will be suppresed)
 
 ## Future releases:
-* Auto SSID discovery
+* auto SSID discovery
 * WOL widget shortcut
-* Device pinging
+* device pinging
 
 If you find any bugs, please contact me, so I could fix it. Hope you enjoy the app! :)
