@@ -1,7 +1,7 @@
 Android auto Wake-on-Lan
 ========
 
-A simple android Wake-on-Lan application which can wake your device up automatically upon obtaining Wi-Fi connection.
+A simple android Wake-on-Lan application which can wake your device up automatically upon obtaining Wi-Fi connection. You can install the app from [google play](https://play.google.com/store/apps/details?id=net.cmikavac.autowol).
 
 ## Features:
 * regular WOL
@@ -13,7 +13,5 @@ A simple android Wake-on-Lan application which can wake your device up automatic
 * Auto SSID discovery
 * WOL widget shortcut
 * Device pinging
-
-You can install the app from [google play](https://play.google.com/store/apps/details?id=net.cmikavac.autowol).
 
 If you find any bugs, please contact me, so I could fix it. Hope you enjoy the app! :)
