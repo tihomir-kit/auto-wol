@@ -73,8 +73,12 @@ public class WifiReceiver extends BroadcastReceiver {
     }
     
     private void wakeDevice(DeviceModel device, WolService wolService) {
-        Boolean isNowBetweenQuietHours = TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
+        Boolean isNowBetweenQuietHours = true;
         Boolean hasIdleTimePassed = true;
+
+        if (device.getQuietHoursFrom() != null) {
+            TimeUtil.isNowBetweenQuietHours(device.getQuietHoursFrom(), device.getQuietHoursTo());
+        }
 
         if (device.getIdleTime() != null) {
             hasIdleTimePassed = TimeUtil.hasIdleTimePassed(device.getIdleTime(), device.getLastDisconnected());
