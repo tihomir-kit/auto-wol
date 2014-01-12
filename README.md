@@ -3,13 +3,13 @@ Android auto Wake-on-Lan
 
 A simple android Wake-on-Lan application which can wake your device up automatically upon obtaining Wi-Fi connection.
 
-Features:
+## Features:
 * regular WOL
 * automatic WOL upon obtaining Wi-Fi connection
 * quiet-hours (period during which automatic WOL will be suppressed)
 * idle-time (period from last Wi-Fi disconnect during which automatic WOL will be suppresed)
 
-Future releases:
+## Future releases:
 * Auto SSID discovery
 * WOL widget shortcut
 * Device pinging
