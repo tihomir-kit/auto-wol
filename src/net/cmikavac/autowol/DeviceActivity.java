@@ -3,8 +3,9 @@ package net.cmikavac.autowol;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.cmikavac.autowol.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.models.DeviceModel;
+import net.cmikavac.autowol.partials.TimePickerFragment;
+import net.cmikavac.autowol.partials.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.utils.CustomTextWatcher;
 import net.cmikavac.autowol.utils.TimeUtil;
 
@@ -31,19 +32,28 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private DeviceModel mDevice = null;
     private FormItems mFormItems = null;
 
+    /** 
+     * Upon activity creation initializes form items, set mDevice to existing
+     * or new device sets form value, and registers callbacks. 
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
 
         initializeFormItems();
-        setDevice();
+        ensureDeviceExists();
         setFormValues();
         registerSwitchCallbacks();
         registerLinearLayoutButtonsCallbacks();
         registerAfterTextChangedCallbacks();
     }
 
+    /**
+     * Upon options menu creation inflates the menu and sets
+     * button functionalities and visibility. 
+     * @param menu      Menu entity to inflate.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -56,6 +66,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return true;
     }
 
+    /**
+     * Routes to appropriate action upon clicking on an item from the actionBar menu.
+     * @param item      Clicked item.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -77,6 +91,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return true;
     }
 
+    /**
+     * Registers toggleLinearLayoutVisibility() method to auto-wake, quiet
+     * hours and idle time switch onCheckChanged() listener callbacks.
+     */
     private void registerSwitchCallbacks() {
         final CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -100,6 +118,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.idleTimeSwitch.setOnCheckedChangeListener(listener);
     }
 
+    /**
+     * Registers showTimePickerDialog() method to quiet hours
+     * layout onClick() listener callbacks.
+     */
     private void registerLinearLayoutButtonsCallbacks() {
         final OnClickListener listener = new OnClickListener() {
             @Override
@@ -112,6 +134,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.quietHoursToLayout.setOnClickListener(listener);
     }
 
+    /**
+     * Registers new CustomTextWatcher() to all EditText fields listener callbacks. Used
+     * to remove validation error when the user starts typing into an EditText field.
+     */
     private void registerAfterTextChangedCallbacks() {
         mFormItems.nameEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.nameEdit));
         mFormItems.macEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.macEdit));
@@ -121,16 +147,27 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.idleTimeEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.idleTimeEdit));
     }
 
+    /**
+     * Toggles LinearLayout visibility on and off based on isChecked param. Layouts with 
+     * their corresponding switches checked are shown, and unchecked ones are hidden.
+     * @param layoutId      Id of the layout for which to toggle visibility.
+     * @param isChecked     Is layouts switch checked? 
+     */
     private void toggleLinearLayoutVisibility(int layoutId, boolean isChecked) {
         LinearLayout linearLayout = (LinearLayout)findViewById(layoutId);
         if (isChecked == true) {
             linearLayout.setVisibility(LinearLayout.VISIBLE);
-        }
-        else {
+        } else {
             linearLayout.setVisibility(LinearLayout.GONE);
         }
     }
 
+    /**
+     * Gets initial hour and minute values to be set on TimePicker by default, bundles
+     * that data together with layoutId and passes it to a new TimePicker fragment.
+     * Pops-up a TimePicker fragment.
+     * @param layoutId      QuietHoursFrom or QuietHoursTo layout Id.
+     */
     public void showTimePickerDialog(int layoutId) {
         Integer hour = getQuietHoursHour(layoutId);
         Integer minute = getQuietHoursMinute(layoutId);
@@ -141,6 +178,12 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         newFragment.show(getFragmentManager(), Integer.toString(layoutId));
     }
 
+    /**
+     * Gets quiet hour based on "from" and "to" layout Ids. Gets the DB value
+     * or the default value (0 or 7) if the DB value is not already set.
+     * @param layoutId      QuietHoursFrom or QuietHoursTo layout Id.
+     * @return              DB quiet hours value or the default value.
+     */
     public Integer getQuietHoursHour(int layoutId) {
         Integer hour = layoutId  == R.id.layout_quiet_hours_from ? 0 : 7;
 
@@ -158,6 +201,12 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return hour;
     }
 
+    /**
+     * Gets quiet minute based on "from" and "to" layout Ids. Gets the DB value
+     * or the default value (0) if the DB value is not already set.
+     * @param layoutId      QuietHoursFrom or QuietHoursTo layout Id.
+     * @return              DB quiet minutes value or the default value.
+     */
     public Integer getQuietHoursMinute(int layoutId) {
         Integer minute = 0;
 
@@ -175,6 +224,13 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return minute;
     }
 
+    /**
+     * Creates a data bundle for TimePicker.
+     * @param layoutId      QuietHoursFrom or QuietHoursTo layout Id.
+     * @param hour          Initial hour value.
+     * @param minute        Initial minutes value.
+     * @return              Bundle entity.
+     */
     public Bundle createTimePickerBundle(int layoutId, int hour, int minute) {
         Bundle bundle = new Bundle();
         bundle.putInt("layoutId", layoutId);
@@ -183,12 +239,26 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return bundle;
     }
 
+    /**
+     * On time picked event, converts hour and minutes values to milliseconds
+     * milliseconds and sets a new value for the layout in the activity.
+     * @see net.cmikavac.autowol.partials.TimePickerFragment.OnTimePickedListener#onTimePicked(int, int, int)
+     * @param layoutId      QuietHoursFrom or QuietHoursTo layout Id.
+     * @param hour          Hour value.
+     * @param minute        Minutes value.
+     */
     @Override
     public void onTimePicked(int layoutId, int hour, int minute) {
         Long timeInMillis = TimeUtil.getTimeInMilliseconds(hour, minute);
         setQuietHoursValues(layoutId, timeInMillis);
     }
 
+    /**
+     * Sets Device QuietHours property value and sets the formatted
+     * time value in QuietHours layout in the activity.  
+     * @param layoutId          QuietHoursFrom or QuietHoursTo layout Id.
+     * @param timeInMillis      Time in milliseconds.
+     */
     private void setQuietHoursValues(int layoutId, Long timeInMillis) {
         switch (layoutId) {
             case R.id.layout_quiet_hours_from:
@@ -202,27 +272,38 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
     }
 
-    private void setDevice() {
+    
+    /**
+     * Sets the mDevice entity. If the the serializable deviceObject
+     * is null, creates a new mDevice entity.
+     */
+    private void ensureDeviceExists() {
         Intent intent = getIntent();
         DeviceModel device = (DeviceModel)intent.getSerializableExtra("deviceObject");
         
         if (device == null) {
             mDevice = new DeviceModel();
-        }
-        else {
+        } else {
             mDevice = device;
         }
     }
 
+    /**
+     * Saves mDevice object values to DB.
+     */
     private void saveDeviceToDb() {
         if (mDevice.getId() == -1) {
             mDbProvider.insertDevice(mDevice);
-        }
-        else {
+        } else {
             mDbProvider.updateDevice(mDevice);
         }
     }
 
+    /**
+     * Reads mDevice entity property values and sets them as activity form 
+     * values. Also ensures that form switches are checked or unchecked 
+     * depending on whether their nested values are set or not.
+     */
     private void setFormValues() {
         mFormItems.nameEdit.setText(mDevice.getName());
         mFormItems.macEdit.setText(mDevice.getMac());
@@ -267,6 +348,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
     }
 
+    /**
+     * Gets values from activity form and maps them to mDevice entity.
+     * "Nulls" the values for unchecked switches.
+     */
     private void getFormValues() {
         mDevice.setName(mFormItems.nameEdit.getText().toString());
         mDevice.setMac(mFormItems.macEdit.getText().toString());
@@ -294,6 +379,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
     }
 
+    /**
+     * Validates form values and sets their error messages if the validation failed.
+     * @return      Is form valid?
+     */
     private Boolean validateFormValues() {
         Boolean isValid = true;
         resetFormErrors();
@@ -347,6 +436,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return isValid;
     }
 
+    /**
+     * Clears all form errors.
+     */
     private void resetFormErrors() {
         mFormItems.nameEdit.setError(null);
         mFormItems.macEdit.setError(null);
@@ -355,6 +447,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.nameEdit.setError(null);
     }
 
+    /**
+     * Displays the help dialog containing assets/Help.html data.
+     */
     private void displayHelpDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Help")
@@ -365,6 +460,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
                 }
             }
         );
+
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
@@ -372,6 +468,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         textView.setTextSize(14);
     }
 
+    /**
+     * Reads assets/Help.html file data as a String.  
+     * @return      Help.html data as a string.
+     */
     private CharSequence getHelpHtml() {
         InputStream inputStream;
         String html = null; 
@@ -390,10 +490,18 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return Html.fromHtml(html);
     }
 
+    /**
+     * Populates mFormItems entity with new FormItems entity.
+     */
     private void initializeFormItems() {
         mFormItems = createFormItems();
     }
     
+    /**
+     * Creates a new FormItems entity containing form view entities found 
+     * by their R.Ids and cast to appropriate types.
+     * @return      FormItems entity.
+     */
     private FormItems createFormItems() {
         FormItems formItems = new FormItems();
         
@@ -424,6 +532,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         return formItems;
     }
 
+    /**
+     * FormItems class containing definitions of all needed view elements. Used in parent class
+     * to access view elements more easily without the need to find them by Id each time.
+     */
     private class FormItems {
         // EditText
         EditText nameEdit;

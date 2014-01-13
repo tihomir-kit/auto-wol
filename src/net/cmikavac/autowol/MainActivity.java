@@ -3,8 +3,8 @@ package net.cmikavac.autowol;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cmikavac.autowol.adapters.DeviceListAdapter;
 import net.cmikavac.autowol.models.DeviceModel;
+import net.cmikavac.autowol.partials.DeviceListAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,9 @@ import android.widget.TextView;
 public class MainActivity extends BaseActivity {
     private List<DeviceModel> mDevices = new ArrayList<DeviceModel>();
 
+    /**
+     * Upon activity creation populates the list view with Device entities.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +29,21 @@ public class MainActivity extends BaseActivity {
         populateListView();
     }
 
+    /**
+     * Re-populates the list view with Device entities
+     * after Device deletion / creation / edit.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         populateListView();
     }
 
+    /**
+     * Upon options menu creation inflates the menu and sets
+     * button functionalities and visibility. 
+     * @param menu      Menu entity to inflate.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -40,6 +52,10 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    /**
+     * Routes to appropriate action upon clicking on an item from the actionBar menu.
+     * @param item      Clicked item.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -53,6 +69,9 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    /**
+     * Fetches all Device entities from DB and binds them to an ArrayAdapter.
+     */
     public void populateListView() {
         mDevices = mDbProvider.getAllDevices();
         ArrayAdapter<DeviceModel> adapter = new DeviceListAdapter(this, mDevices);
@@ -61,6 +80,9 @@ public class MainActivity extends BaseActivity {
         setEmptyListNotificationVisibility();
     }
 
+    /**
+     * If no Device entities exist yet, display an "empty list notification" instead.
+     */
     private void setEmptyListNotificationVisibility() {
         TextView notification = (TextView)findViewById(R.id.text_empty_list);
         if (!mDevices.isEmpty()) {

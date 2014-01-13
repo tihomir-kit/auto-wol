@@ -1,4 +1,4 @@
-package net.cmikavac.autowol.adapters;
+package net.cmikavac.autowol.partials;
 
 import java.util.List;
 
@@ -27,6 +27,11 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
     private List<DeviceModel> mDevices = null;
     private DbProvider mDbProvider = null;
 
+    /**
+     * Constructor.
+     * @param context       Context entity.
+     * @param devices       List of DeviceModel entities.
+     */
     public DeviceListAdapter(Context context, List<DeviceModel> devices) {
         super(context, R.layout.device_item_view, devices);
         mContext = context;
@@ -34,14 +39,21 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         mDbProvider = new DbProvider(context);
     }
 
+    /**
+     * Binds data to current itemView and registers its click callbacks.
+     * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+     * @param position          Current itemView position in list.
+     * @param itemView          Current View item on which to bind data.
+     * @param parentGroup       Parent ViewGroup entity.
+     */
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View itemView = convertView;
+    public View getView(final int position, View itemView, ViewGroup parentGroup) {
         ItemHolder itemHolder = new ItemHolder();
-        
+
+        // Inflates new items on scroll to improve performance.
         if (itemView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            itemView = inflater.inflate(R.layout.device_item_view, parent, false);
+            itemView = inflater.inflate(R.layout.device_item_view, parentGroup, false);
             itemHolder = createItemHolder(itemView);
             itemView.setTag(itemHolder);
         } else {
@@ -55,6 +67,12 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         return itemView;
     }
 
+    /**
+     * Sets text values for ItemHolder entity from mDevice entity. 
+     * Sets default values for null mDevice text values.
+     * @param position      ItemHolder position in list.
+     * @param itemHolder    ItemHolder entity for which to set text values.
+     */
     private void setItemHolderTextValues(final int position, ItemHolder itemHolder) {
         DeviceModel device = mDevices.get(position);
         itemHolder.nameText.setText(device.getName());
@@ -78,6 +96,11 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         }
     }
 
+    /**
+     * Registers wakeDevice onClick callback to itemView entity.
+     * @param position      Item position in the list.
+     * @param itemView      ItemView entity for which to set callback.
+     */
     private void registerOnClickListener(final int position, View itemView) {
         itemView.setOnClickListener(new OnClickListener() {
             @Override
@@ -87,6 +110,11 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         });
     }
 
+    /**
+     * Registers showDialog onLongClick callback to itemView entity.
+     * @param position      Item position in the list.
+     * @param itemView      ItemView entity for which to set callback.
+     */
     private void registerOnLongClickListener(final int position, View itemView) {
         itemView.setOnLongClickListener(new OnLongClickListener() {
             @Override
@@ -99,6 +127,10 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         });
     }
 
+    /**
+     * Builds and shows alert dialog with "2ake, edit and delete" options. 
+     * @param position      Item position in the list.
+     */
     private void showDialog(final int position) {
         final CharSequence[] dialogItems = {"Wake", "Edit", "Delete"};
 
@@ -124,11 +156,20 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         alert.show();
     }
 
+    /**
+     * Wakes the device.
+     * @param position      Item position in the list.
+     */
     private void wakeDevice(int position) {
         DeviceModel device = mDevices.get(position);
         new WolService(mContext).execute(device);
     }
 
+    /**
+     * Starts edit activity for selected device and passes the DeviceModel
+     * entity as extended data (deviceObject).
+     * @param position      Item position in the list.
+     */
     private void editDevice(int position) {
         DeviceModel device = mDevices.get(position);
         Intent intent = new Intent(mContext, DeviceActivity.class);
@@ -136,6 +177,10 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         mContext.startActivity(intent);
     }
 
+    /**
+     * Deletes selected device record from DB and removes it from the item list on main activity. 
+     * @param position      Item position in the list.
+     */
     private void deleteDevice(int position) {
         mDbProvider.open();
         DeviceModel device = mDevices.get(position);
@@ -146,6 +191,12 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         notifyDataSetChanged();
     }
 
+    /**
+     * Creates ItemHolder with all the view items view entities found 
+     * by their R.Ids and cast to appropriate types.
+     * @param itemView      ItemView entity for which to create ItemHolder entity. 
+     * @return              New ItemHolder entity.
+     */
     private ItemHolder createItemHolder(View itemView) {
         ItemHolder itemHolder = new ItemHolder();
         itemHolder.nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
@@ -158,6 +209,10 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         return itemHolder;
     }
 
+    /**
+     * ItemHolder class containing definitions of all needed view elements. Used in parent class
+     * to access view elements more easily without the need to find them by Id each time.
+     */
     private class ItemHolder {
         TextView nameText;
         TextView ipText;

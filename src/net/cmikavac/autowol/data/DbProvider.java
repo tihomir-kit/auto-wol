@@ -11,35 +11,51 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DbProvider extends DbConfiguration {
-    //private final Context mContext;
     private SQLiteDatabase mDb;
     private DbHelper mDbHelper;
     private DbMapper mDbMapper;
 
+    /**
+     * Constructor.
+     * @param context       Context entity.
+     */
     public DbProvider(Context context) {
-        //mContext = context;
         mDbHelper = new DbHelper(context);
         mDbMapper = new DbMapper();
     }
 
-    // Open the database connection
+
+    /**
+     * Opens the database connection.
+     * @return      DbProvider entity.
+     */
     public DbProvider open() {
         mDb = mDbHelper.getWritableDatabase();
         return this;
     }
 
-    // Close the database connection
+    /**
+     * Closes the database connection.
+     */
     public void close() {
         mDbHelper.close();
     }
 
-    // Inserts a new DeviceModel record into DB
+    /**
+     * Maps content values from DeviceModel entity and inserts a new device record into DB.
+     * @param device        DeviceModel entity to insert.
+     * @return              Row Id of the newly inserted record.
+     */
     public long insertDevice(DeviceModel device) {
         ContentValues values = setContentValues(device);
         return mDb.insert(DATABASE_TABLE, null, values);
     }
 
-    // Gets a DeviceModel record from DB by DeviceModel Id
+    /**
+     * Gets a device record from DB and maps it to DeviceModel entity.
+     * @param id        Device record Id of the record to fetch.
+     * @return          DeviceModel entity.
+     */
     public DeviceModel getDevice(long id) {
         String where = KEY_ROWID + "=" + id;
         Cursor cursor = mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
@@ -52,7 +68,10 @@ public class DbProvider extends DbConfiguration {
         return device;
     }
 
-    // Gets all DeviceModel records from DB
+    /**
+     * Gets all device records from DB and maps them to a list of DeviceModel entities.
+     * @return      A list of DeviceModel entities.
+     */
     public List<DeviceModel> getAllDevices() {
         Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, null, null, null, null, null, null);
         if (cursor != null) {
@@ -64,6 +83,11 @@ public class DbProvider extends DbConfiguration {
         return devices;
     }
 
+    /**
+     * Gets device records from DB by SSID and maps them to a list of DeviceModel entities.
+     * @param ssid      Device SSID for filtering.
+     * @return          A list of DeviceModel entities.
+     */
     public List<DeviceModel> getDevicesBySSID(String ssid) {
         String where = KEY_SSID + "='" + ssid + "'";
         Cursor cursor =  mDb.query(true, DATABASE_TABLE, ALL_KEYS, where, null, null, null, null, null);
@@ -76,24 +100,45 @@ public class DbProvider extends DbConfiguration {
         return devices;
     }
 
+    /**
+     * Updates a device record in DB.
+     * @param device        DeviceModel entitiy to update.
+     * @return              Device updated?
+     */
     public boolean updateDevice(DeviceModel device) {
         String where = KEY_ROWID + "=" + device.getId();
         ContentValues newValues = setContentValues(device);
         return mDb.update(DATABASE_TABLE, newValues, where, null) != 0;
     }
 
-    public boolean updateDevicesLastDisconnected(String ssid, Long currentTimeInMillis) {
+    /**
+     * Updates device records last_disconnected fields filtered by SSID.
+     * @param ssid                      Device SSID for filtering.
+     * @param currentTimeInMillis       Current time in milliseconds (value to be updated).
+     * @return                          Number of rows updated.
+     */
+    public int updateDevicesLastDisconnected(String ssid, Long currentTimeInMillis) {
         String where = KEY_SSID + "='" + ssid + "'";
         ContentValues newValues = new ContentValues();
         newValues.put(KEY_LAST_DISCONNECTED, currentTimeInMillis);
-        return mDb.update(DATABASE_TABLE, newValues, where, null) != 0;
+        return mDb.update(DATABASE_TABLE, newValues, where, null);
     }
 
+    /**
+     * Removes device record from DB.
+     * @param rowId     Id of the record to remove.
+     * @return          Record removed?
+     */
     public boolean deleteDevice(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
         return mDb.delete(DATABASE_TABLE, where, null) != 0;
     }
 
+    /**
+     * Sets content values for DeviceModel entity.
+     * @param device        DeviceModel entity to map to ContentValues.
+     * @return              ConentValues entity.
+     */
     private ContentValues setContentValues(DeviceModel device) {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, device.getName());
@@ -119,11 +164,21 @@ public class DbProvider extends DbConfiguration {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        /**
+         * Creates an empty SQL table for the application.
+         * @param db        SQLiteDatabase entity.
+         */
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DATABASE_CREATE_SQL);
         }
 
+        /**
+         * On DB version changed, drops existing table and creates a new one.
+         * @param db                SQLiteDatabase entity.
+         * @param oldVersion        Old DB version number.
+         * @param newVersion        New DB version number.
+         */
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading application's database from version " + oldVersion
