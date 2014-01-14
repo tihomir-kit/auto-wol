@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         registerSwitchCallbacks();
         registerLinearLayoutButtonsCallbacks();
         registerAfterTextChangedCallbacks();
+        registerAfterMacTextChangedCallback();
     }
 
     /**
@@ -147,6 +149,70 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.idleTimeEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.idleTimeEdit));
     }
 
+    private void registerAfterMacTextChangedCallback() {
+        mFormItems.macEdit.addTextChangedListener(new TextWatcher() {
+            String mPreviousMac = null;
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String enteredMac = mFormItems.macEdit.getText().toString();
+                String cleanMac = clearNonMacCharacters(enteredMac);
+                String formattedMac = formatWithSeparator(cleanMac, 2, ":");
+                formattedMac = handleColonDeletion(enteredMac, formattedMac);
+
+                // TODO: handle cursor positioning
+                if (cleanMac.length() <= 12) { 
+                    mFormItems.macEdit.removeTextChangedListener(this);
+                    mFormItems.macEdit.setText(formattedMac);
+                    //mFormItems.macEdit.setSelection(formattedMac.length());
+                    mFormItems.macEdit.addTextChangedListener(this);
+                    mPreviousMac = formattedMac;
+                }
+            }
+
+            private String clearNonMacCharacters(String mac) {
+                return mac.toString().replaceAll("[^A-Fa-f0-9]", "");
+            }
+
+            private String formatWithSeparator(String stringToFormat, int maxGroupChars, String separator) {
+                int grouppedCharacters = 0;
+                String newString = "";
+                
+                for (int i = 0; i < stringToFormat.length(); ++i) {
+                    newString += stringToFormat.charAt(i);
+                    ++grouppedCharacters;
+
+                    if (grouppedCharacters == 2) {
+                        newString += separator;
+                        grouppedCharacters = 0;
+                    }
+                }
+
+                return newString;
+            }
+
+            private String handleColonDeletion(String enteredMac, String formattedMac) {
+                if (mPreviousMac != null && mPreviousMac.length() > 1) {
+                    String trimmedPreviousMac = mPreviousMac.substring(0, mPreviousMac.length() - 1);
+                    String previousLastChar = mPreviousMac.substring(mPreviousMac.length() - 1);
+
+                    if (previousLastChar.equals(":") && trimmedPreviousMac.equals(enteredMac)) {
+                        formattedMac = formattedMac.substring(0, formattedMac.length() - 1);
+                    }
+                }
+                return formattedMac;
+            }
+        });
+    }
+    
     /**
      * Toggles LinearLayout visibility on and off based on isChecked param. Layouts with 
      * their corresponding switches checked are shown, and unchecked ones are hidden.

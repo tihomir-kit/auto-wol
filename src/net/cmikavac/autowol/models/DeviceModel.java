@@ -20,8 +20,8 @@ public class DeviceModel implements Serializable {
         this.mId = (long)-1;
     }
     
-    public DeviceModel(String name, String mac, String ip, Integer port, 
-            String ssid, Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
+    public DeviceModel(String name, String mac, String ip, Integer port, String ssid, 
+            Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mName = name;
         this.mMac = mac;

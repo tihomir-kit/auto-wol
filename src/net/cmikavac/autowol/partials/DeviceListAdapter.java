@@ -146,7 +146,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
                         editDevice(position);
                         break;
                     case 2: // Delete
-                        deleteDevice(position);
+                        confirmDeviceDeletion(position);
                         break;
                 }
             }
@@ -175,6 +175,32 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
         Intent intent = new Intent(mContext, DeviceActivity.class);
         intent.putExtra("deviceObject", device);
         mContext.startActivity(intent);
+    }
+
+    /**
+     * Prompts the user with a confirmation dialog for device deletion.
+     * If deletion is confirmed, delete device from DB else do nothing.
+     * @param position      Item position in the list.
+     */
+    private void confirmDeviceDeletion(final int position) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+
+        alert.setTitle("Confirm");
+        alert.setMessage("Are you sure you wish to delete this device?");
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                deleteDevice(position);
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                 // Deletion canceled. Do nothing.
+            }
+        });
+
+        alert.show();
     }
 
     /**
