@@ -262,10 +262,10 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
             /**
              * Removes TextChange listener, sets MAC EditText field value, 
              * sets new cursor position and re-initiates the listener.
-             * @param cleanMac
-             * @param formattedMac
-             * @param selectionStart
-             * @param lengthDiff
+             * @param cleanMac          Clean MAC address.
+             * @param formattedMac      Formatted MAC address.
+             * @param selectionStart    MAC EditText field cursor position.
+             * @param lengthDiff        Formatted/Entered MAC number of characters difference.
              */
             private void setMacEdit(String cleanMac, String formattedMac, int selectionStart, int lengthDiff) {
                 mFormItems.macEdit.removeTextChangedListener(this);
