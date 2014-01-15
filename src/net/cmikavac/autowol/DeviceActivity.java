@@ -8,6 +8,7 @@ import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.partials.TimePickerFragment;
 import net.cmikavac.autowol.partials.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.utils.CustomTextWatcher;
+import net.cmikavac.autowol.utils.IPAddressValidator;
 import net.cmikavac.autowol.utils.TimeUtil;
 
 import android.annotation.SuppressLint;
@@ -532,7 +533,12 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         // Mac
         Editable mac = mFormItems.macEdit.getText();
         if (mac == null || mac.toString().isEmpty()) {
-            mFormItems.macEdit.setError("Mac address is required");
+            mFormItems.macEdit.setError("MAC address is required");
+            isValid = false;
+        } else if (mac.toString().length() != 17) {
+            // Since MAC is auto-formatted, it is already of right format, so only its  
+            // length needs to be validated to check if it's a valid MAC address
+            mFormItems.macEdit.setError("Invalid MAC address");
             isValid = false;
         }
 
@@ -540,6 +546,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         Editable ip = mFormItems.ipEdit.getText();
         if (ip == null || ip.toString().isEmpty()) {
             mFormItems.ipEdit.setError("IP address is required");
+            isValid = false;
+        } else if (!IPAddressValidator.getInstance().validateIp(ip.toString())) {
+            mFormItems.ipEdit.setError("Invalid IP address");
             isValid = false;
         }
 
