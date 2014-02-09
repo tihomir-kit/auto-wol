@@ -19,6 +19,7 @@
     <string name="activity_device_switch_auto_wake">Auto-Wake</string>
     <string name="activity_device_text_ssid">Wi-Fi SSID</string>
     <string name="activity_device_edit_ssid">MySSID</string>
+    <string name="activity_device_discover_ssid">Discover SSID</string>
     <string name="activity_device_switch_quiet_hours">Quiet hours</string>
     <string name="activity_device_text_quiet_hours_from">From</string>
     <string name="activity_device_edit_quiet_hours_from">00:00</string>

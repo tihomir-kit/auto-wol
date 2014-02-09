@@ -2,18 +2,19 @@ package net.cmikavac.autowol;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.partials.TimePickerFragment;
 import net.cmikavac.autowol.partials.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.utils.CustomTextWatcher;
 import net.cmikavac.autowol.utils.IPAddressValidator;
+import net.cmikavac.autowol.utils.NetworkingUtil;
 import net.cmikavac.autowol.utils.TimeUtil;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +51,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         ensureDeviceExists();
         setFormValues();
         registerSwitchCallbacks();
+        registerDiscoverSSIDCallback();
         registerLinearLayoutButtonsCallbacks();
         registerAfterTextChangedCallbacks();
         registerAfterMacTextChangedCallback();
@@ -121,6 +124,18 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.autoWakeSwitch.setOnCheckedChangeListener(listener);
         mFormItems.quietHoursSwitch.setOnCheckedChangeListener(listener);
         mFormItems.idleTimeSwitch.setOnCheckedChangeListener(listener);
+    }
+
+    /**
+     * Registers discoverSSID() method to discover SSID button onClick() listener callback.
+     */
+    private void registerDiscoverSSIDCallback() {
+        mFormItems.discoverSSIDButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discoverSSID();
+            }
+        });
     }
 
     /**
@@ -296,6 +311,60 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         } else {
             linearLayout.setVisibility(LinearLayout.GONE);
         }
+    }
+
+    /**
+     * Discovers current SSID and prompts the user to potentially use it with Auto-Wake.
+     */
+    private void discoverSSID() {
+        String ssid = NetworkingUtil.getCurrentSSID(this);
+
+        AlertDialog.Builder builder = ssid == null ? createSSIDEmptyDialog() : createSSIDExistsDialog(ssid);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * Creates a notification dialog for null SSID.
+     * @return      AlertDialog Builder entity.
+     */
+    private Builder createSSIDEmptyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Discover SSID")
+            .setMessage("Could not obtain current SSID. Please check your Wi-Fi connection.")
+            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            }
+        );
+        return builder;
+    }
+
+    /**
+     * Creates a dialog prompt to use current SSID with Auto-Wake. 
+     * @param ssid      Current Wi-Fi SSID.
+     * @return          AlertDialog Builder entity.
+     */
+    private Builder createSSIDExistsDialog(final String ssid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Discover SSID")
+            .setMessage("You are currently connected to \"" + ssid + "\". Would you like to use that SSID with Auto-Wake?")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mFormItems.ssidEdit.setText(ssid);
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            }
+        );
+        return builder;
     }
 
     /**
@@ -648,7 +717,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
      */
     private FormItems createFormItems() {
         FormItems formItems = new FormItems();
-        
+
         // EditText
         formItems.nameEdit = (EditText)findViewById(R.id.edit_name);
         formItems.ipEdit = (EditText)findViewById(R.id.edit_ip);
@@ -656,18 +725,21 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         formItems.portEdit = (EditText)findViewById(R.id.edit_port);
         formItems.ssidEdit = (EditText)findViewById(R.id.edit_ssid);
         formItems.idleTimeEdit = (EditText)findViewById(R.id.edit_idle_time);
-        
+
         // TextView
         formItems.quietHoursFromText = (TextView)findViewById(R.id.text_quiet_hours_from);
         formItems.quietHoursToText = (TextView)findViewById(R.id.text_quiet_hours_to);
-        
+
+        // Button
+        formItems.discoverSSIDButton = (ImageButton)findViewById(R.id.btn_discover_ssid);
+
         // LinearLayout
         formItems.autoWakeLayout = (LinearLayout)findViewById(R.id.layout_auto_wake);
         formItems.quietHoursLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours);
         formItems.quietHoursFromLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_from);
         formItems.quietHoursToLayout = (LinearLayout)findViewById(R.id.layout_quiet_hours_to);
         formItems.idleTimeLayout = (LinearLayout)findViewById(R.id.layout_idle_time);
-        
+
         // Switch
         formItems.autoWakeSwitch = (Switch)findViewById(R.id.switch_auto_wake);
         formItems.quietHoursSwitch = (Switch)findViewById(R.id.switch_quiet_hours);
@@ -692,6 +764,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         // TextView
         TextView quietHoursFromText;
         TextView quietHoursToText;
+
+        // Button
+        ImageButton discoverSSIDButton;
 
         // LinearLayout
         LinearLayout autoWakeLayout;

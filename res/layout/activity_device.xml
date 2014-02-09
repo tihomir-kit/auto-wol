@@ -92,19 +92,45 @@
                 android:layout_marginBottom="4dip"
                 android:background="?android:attr/dividerVertical" />
 
-            <TextView
-                android:id="@+id/text_ssid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_device_text_ssid"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <EditText
-                android:id="@+id/edit_ssid"
+            <LinearLayout
+                android:id="@+id/layout_ssid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/activity_device_edit_ssid" />
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/text_ssid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_device_text_ssid"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <EditText
+                        android:id="@+id/edit_ssid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/activity_device_edit_ssid" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_discover_ssid"
+                    android:layout_width="48dip"
+                    android:layout_height="48dip"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_gravity="bottom"
+                    android:contentDescription="@string/activity_device_discover_ssid"
+                    android:src="@drawable/ic_eye_on" />
+
+            </LinearLayout>
 
             <Switch
                 android:id="@+id/switch_quiet_hours"
