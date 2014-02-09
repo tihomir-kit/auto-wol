@@ -3,22 +3,29 @@ package net.cmikavac.autowol.services;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Random;
 
 import net.cmikavac.autowol.models.DeviceModel;
 
+import net.cmikavac.autowol.R;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 public class WolService extends AsyncTask<DeviceModel, Void, String> {
     private Context mContext = null;
+    private Boolean mNotify = false;
     
     /**
      * Constructor.
      * @param context   Context entity.
      */
-    public WolService(Context context) {
+    public WolService(Context context, Boolean notify) {
         mContext = context;
+        mNotify = notify;
     }
 
     /* (non-Javadoc)
@@ -28,27 +35,31 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
     @Override
     protected String doInBackground(DeviceModel... devices) {
         DeviceModel device = devices[0];
-        return Wake(device.getIp(), device.getMac(), device.getPort());
+        return Wake(device.getName(), device.getIp(), device.getMac(), device.getPort());
     }
 
     /* (non-Javadoc)
-     * Creates a toast message after device WOL attempt.
+     * Creates a notification or toast message after device WOL attempt.
      * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
      */
     @Override
     protected void onPostExecute(String message) {
         super.onPostExecute(message);
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();;
+        if (mNotify)
+            createNotification(message);
+        else
+            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Creates a WOL network packet and sends it to the network.
+     * @param name      WOL device name.
      * @param ip        Access point broadcast IP.
      * @param mac       MAC address of the device to wake.
      * @param port      WOL port to be used.
      * @return          Success/exception message.
      */
-    private String Wake(String ip, String mac, int port) {
+    private String Wake(String name, String ip, String mac, int port) {
         try {
             byte[] macBytes = getMacBytes(mac);
             byte[] bytes = new byte[6 + 16 * macBytes.length];
@@ -65,10 +76,10 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
             socket.send(packet);
             socket.close();
 
-            return "Wake-on-Lan packet sent.";
+            return "WOL packet sent to " + name + ".";
         }
         catch (Exception e) {
-            return  "Failed to send Wake-on-LAN packet: " + e.getMessage();
+            return  "Failed to send WOL packet: " + e.getMessage();
         }
     }
 
@@ -96,5 +107,20 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
         }
 
         return bytes;
+    }
+
+    /**
+     * Creates a new Android notification to let the user know Auto-WOL packet has been sent.
+     * @param message       Message to display.
+     */
+    private void createNotification(String message) {
+        Notification notification = new NotificationCompat.Builder(mContext)
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setContentTitle("Auto WOL")
+            .setContentText(message)
+            .build();
+
+        NotificationManager mNotificationManager = (NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(new Random(System.currentTimeMillis()).nextInt() , notification);
     }
 }

@@ -118,10 +118,10 @@ public class WifiReceiver extends BroadcastReceiver {
 
         if (device.getQuietHoursFrom() != null) {
             if (!isNowBetweenQuietHours && hasIdleTimePassed) {
-                new WolService(mContext).execute(device);
+                new WolService(mContext, true).execute(device);
             }
         } else if (hasIdleTimePassed) {
-            new WolService(mContext).execute(device);
+            new WolService(mContext, true).execute(device);
         }
     }
 }

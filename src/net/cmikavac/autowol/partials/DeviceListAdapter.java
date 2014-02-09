@@ -162,7 +162,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
      */
     private void wakeDevice(int position) {
         DeviceModel device = mDevices.get(position);
-        new WolService(mContext).execute(device);
+        new WolService(mContext, false).execute(device);
     }
 
     /**
