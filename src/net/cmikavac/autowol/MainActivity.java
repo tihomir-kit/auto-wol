@@ -61,9 +61,13 @@ public class MainActivity extends BaseActivity {
         super.onOptionsItemSelected(item);
         switch(item.getItemId()) {
             case R.id.action_new:
-                Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-                intent.putExtra("deviceObject", new DeviceModel());
-                startActivity(intent);
+                Intent newDeviceIntent = new Intent(MainActivity.this, DeviceActivity.class);
+                newDeviceIntent.putExtra("deviceObject", new DeviceModel());
+                startActivity(newDeviceIntent);
+                break;
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 break;
         }
         return true;

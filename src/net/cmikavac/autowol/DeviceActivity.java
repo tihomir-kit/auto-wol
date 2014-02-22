@@ -70,6 +70,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         menu.findItem(R.id.action_new).setVisible(false);
+        menu.findItem(R.id.action_settings).setVisible(false);
 
         return true;
     }

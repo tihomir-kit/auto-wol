@@ -12,6 +12,9 @@ public class SharedPreferencesProvider {
     // Used for on device disconnected DB records timestamp updates. 
     public static final String PREF_LAST_SSID = "LastSSID";
 
+    // Show notifications on Auto-WOL?
+    public static final String PREF_SHOW_NOTIFICATIONS = "ShowNotifications";
+
     /**
      * Sets application context and instantiates PreferencesManager.
      * @param context       Context entity.
@@ -23,7 +26,7 @@ public class SharedPreferencesProvider {
 
     /**
      * Gets PREF_LAST_SSID value from PreferenceManager.
-     * @return
+     * @return         Last SSID.
      */
     public String getLastSSID() {
         return mPreferences.getString(PREF_LAST_SSID, "No saved SSID's exist yet.");
@@ -36,6 +39,24 @@ public class SharedPreferencesProvider {
     public void setLastSSID(String ssid) {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(PREF_LAST_SSID, ssid);
+        editor.commit();
+    }
+
+    /**
+     * Gets PREF_SHOW_NOTIFICATIONS value from PreferenceManager.
+     * @return        Show notifications or true if preference not set.
+     */
+    public Boolean getShowNotifications() {
+        return mPreferences.getBoolean(PREF_SHOW_NOTIFICATIONS, true);
+    }
+
+    /**
+     * Sets PreferenceManager PREF_SHOW_NOTIFICATIONS value.
+     * @param ssid      Show notifications?
+     */
+    public void setShowNotifications(Boolean showNotifications) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(PREF_SHOW_NOTIFICATIONS, showNotifications);
         editor.commit();
     }
 }

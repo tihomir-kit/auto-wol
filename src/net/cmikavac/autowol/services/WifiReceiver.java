@@ -116,12 +116,15 @@ public class WifiReceiver extends BroadcastReceiver {
             hasIdleTimePassed = TimeUtil.hasIdleTimePassed(device.getIdleTime(), device.getLastDisconnected());
         }
 
+        SharedPreferencesProvider provider = new SharedPreferencesProvider(mContext);
+        Boolean showNotifications = provider.getShowNotifications();
+
         if (device.getQuietHoursFrom() != null) {
             if (!isNowBetweenQuietHours && hasIdleTimePassed) {
-                new WolService(mContext, true).execute(device);
+                new WolService(mContext, showNotifications).execute(device);
             }
         } else if (hasIdleTimePassed) {
-            new WolService(mContext, true).execute(device);
+            new WolService(mContext, showNotifications).execute(device);
         }
     }
 }

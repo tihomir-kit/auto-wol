@@ -1,26 +1,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<!--     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="always" 
-        android:icon="@drawable/ic_action_overflow" />  -->
     <item 
         android:id="@+id/action_help"
         android:icon="@drawable/ic_action_help"
+        android:title="@string/menu_title_help"
         android:orderInCategory="97"
         android:showAsAction="always" />
     
     <item 
         android:id="@+id/action_new"
         android:icon="@drawable/ic_action_new"
+        android:title="@string/menu_title_new"
         android:orderInCategory="98"
         android:showAsAction="always" />
 
     <item 
         android:id="@+id/action_save"
         android:icon="@drawable/ic_action_save"
+        android:title="@string/menu_title_save"
         android:orderInCategory="99"
         android:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/menu_title_settings"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
 </menu>
