@@ -29,7 +29,7 @@ public class SharedPreferencesProvider {
      * @return         Last SSID.
      */
     public String getLastSSID() {
-        return mPreferences.getString(PREF_LAST_SSID, "No saved SSID's exist yet.");
+        return mPreferences.getString(PREF_LAST_SSID, "MyLastSSID");
     }
 
     /**
