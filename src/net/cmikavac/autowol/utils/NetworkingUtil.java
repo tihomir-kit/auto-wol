@@ -26,6 +26,6 @@ public class NetworkingUtil {
                 ssid = connectionInfo.getSSID();
         }
 
-        return ssid.replace("\"", "");
+        return ssid != null ? ssid.replace("\"", "") : null;
     }
 }
