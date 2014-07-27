@@ -11,8 +11,8 @@
     <string name="activity_device_edit_name">Home PC</string>
     <string name="activity_device_text_mac">MAC address</string>
     <string name="activity_device_edit_mac">AB:CD:EF:12:34:56</string>
-    <string name="activity_device_text_ip">Broadcast IP address</string>
-    <string name="activity_device_edit_ip">192.168.1.255</string>
+    <string name="activity_device_text_broadcast">Broadcast IP/FQDN</string>
+    <string name="activity_device_edit_broadcast">192.168.1.255</string>
     <string name="activity_device_text_port">Port</string>
     <string name="activity_device_edit_port">9</string>
     <string name="activity_device_switch_auto_wake">Auto-Wake</string>
@@ -34,7 +34,7 @@
     <!--  device_item_view -->
     <string name="device_item_view_name">Device name</string>
     <string name="device_item_view_mac">AB:CD:EF:12:34:56</string>
-    <string name="device_item_view_ip">192.168.1.255</string>
+    <string name="device_item_view_broadcast">192.168.1.255</string>
     <string name="device_item_view_port">Port: 9</string>
     <string name="device_item_view_ssid">SSID not set</string>
     <string name="device_item_view_quiet_hours">Quiet hours not set</string>

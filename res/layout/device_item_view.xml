@@ -74,14 +74,14 @@
             android:paddingTop="2dp" >
 
             <TextView
-                android:id="@+id/device_item_txt_ip"
+                android:id="@+id/device_item_txt_broadcast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/device_item_view_ip"
+                android:text="@string/device_item_view_broadcast"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView

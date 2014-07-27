@@ -80,19 +80,21 @@ public class DbConfiguration {
         + KEY_LAST_DISCONNECTED + " integer null"
         + "); ";
 
-    // Adds default DB fields
-    protected static final String DATABASE_PATCH_SQL_V1 = DATABASE_CREATE_SQL_V1;
+    // V1 - Adds default DB fields
+    protected static final String DATABASE_PATCH_SQL_V1_1 = DATABASE_CREATE_SQL_V1;
 
-    // Adds "HOST" field, and renames "IP" to "BROADCAST"
-    protected static final String DATABASE_PATCH_SQL_V2 = "" 
-        + "begin transaction; "
-        + "alter table " + DATABASE_TABLE + " rename to " + DATABASE_TABLE_TMP + "; "
-        + DATABASE_CREATE_SQL_V2
+    // V2 - Adds "HOST" field, and renames "IP" to "BROADCAST"
+    protected static final String DATABASE_PATCH_SQL_V2_1 = "" 
+        + "alter table " + DATABASE_TABLE + " rename to " + DATABASE_TABLE_TMP;
+
+    protected static final String DATABASE_PATCH_SQL_V2_2 = "" 
+        + DATABASE_CREATE_SQL_V2;
+
+    protected static final String DATABASE_PATCH_SQL_V2_3 = "" 
         + "insert into " + DATABASE_TABLE + " ("
             + KEY_ROWID + ", "
             + KEY_NAME + ", "
             + KEY_MAC + ", "
-            + KEY_HOST + ", "
             + KEY_BROADCAST + ", "
             + KEY_PORT + ", "
             + KEY_SSID + ", "
@@ -100,21 +102,21 @@ public class DbConfiguration {
             + KEY_QUIET_TO + ", "
             + KEY_IDLE_TIME + ", "
             + KEY_LAST_DISCONNECTED + ") "
-        + "select ("
+        + "select "
             + KEY_ROWID + ", "
             + KEY_NAME + ", "
             + KEY_MAC + ", "
-            + "null, "
             + KEY_IP + ", "
             + KEY_PORT + ", "
             + KEY_SSID + ", "
             + KEY_QUIET_FROM + ", "
             + KEY_QUIET_TO + ", "
             + KEY_IDLE_TIME + ", "
-            + KEY_LAST_DISCONNECTED + ") "
-        + "from " + DATABASE_TABLE_TMP + "; "
-        + "drop table if exists " + DATABASE_TABLE_TMP + "; "
-        + "commit; ";
+            + KEY_LAST_DISCONNECTED + " "
+        + "from " + DATABASE_TABLE_TMP;
+
+    protected static final String DATABASE_PATCH_SQL_V2_4 = "" 
+        + "drop table if exists " + DATABASE_TABLE_TMP;
 
     public static final String[] ALL_KEYS = ALL_KEYS_V2;
     protected static final String DATABASE_CREATE_SQL = DATABASE_CREATE_SQL_V2;

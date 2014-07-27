@@ -7,7 +7,6 @@ import net.cmikavac.autowol.models.DeviceModel;
 import net.cmikavac.autowol.partials.TimePickerFragment;
 import net.cmikavac.autowol.partials.TimePickerFragment.OnTimePickedListener;
 import net.cmikavac.autowol.utils.CustomTextWatcher;
-import net.cmikavac.autowol.utils.IPAddressValidator;
 import net.cmikavac.autowol.utils.NetworkingUtil;
 import net.cmikavac.autowol.utils.TimeUtil;
 
@@ -162,7 +161,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private void registerAfterTextChangedCallbacks() {
         mFormItems.nameEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.nameEdit));
         mFormItems.macEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.macEdit));
-        mFormItems.ipEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.ipEdit));
+        mFormItems.broadcastEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.broadcastEdit));
         mFormItems.portEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.portEdit));
         mFormItems.ssidEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.ssidEdit));
         mFormItems.idleTimeEdit.addTextChangedListener(new CustomTextWatcher(mFormItems.idleTimeEdit));
@@ -515,7 +514,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.macEdit.setText(mDevice.getMac());
 
         if (mDevice.getBroadcast() != null) {
-            mFormItems.ipEdit.setText(mDevice.getBroadcast());
+            mFormItems.broadcastEdit.setText(mDevice.getBroadcast());
         }
 
         if (mDevice.getPort() != null) {
@@ -561,7 +560,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private void getFormValues() {
         mDevice.setName(mFormItems.nameEdit.getText().toString());
         mDevice.setMac(mFormItems.macEdit.getText().toString());
-        mDevice.setBroadcast(mFormItems.ipEdit.getText().toString());
+        mDevice.setBroadcast(mFormItems.broadcastEdit.getText().toString());
         mDevice.setPort(Integer.parseInt(mFormItems.portEdit.getText().toString()));
 
         if (mFormItems.autoWakeSwitch.isChecked()) {
@@ -613,12 +612,9 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         }
 
         // Ip
-        Editable ip = mFormItems.ipEdit.getText();
+        Editable ip = mFormItems.broadcastEdit.getText();
         if (ip == null || ip.toString().isEmpty()) {
-            mFormItems.ipEdit.setError("IP address is required");
-            isValid = false;
-        } else if (!IPAddressValidator.getInstance().validateIp(ip.toString())) {
-            mFormItems.ipEdit.setError("Invalid IP address");
+            mFormItems.broadcastEdit.setError("Broadcast IP/FQDN is required");
             isValid = false;
         }
 
@@ -656,7 +652,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private void resetFormErrors() {
         mFormItems.nameEdit.setError(null);
         mFormItems.macEdit.setError(null);
-        mFormItems.ipEdit.setError(null);
+        mFormItems.broadcastEdit.setError(null);
         mFormItems.portEdit.setError(null);
         mFormItems.nameEdit.setError(null);
     }
@@ -721,7 +717,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
 
         // EditText
         formItems.nameEdit = (EditText)findViewById(R.id.edit_name);
-        formItems.ipEdit = (EditText)findViewById(R.id.edit_ip);
+        formItems.broadcastEdit = (EditText)findViewById(R.id.edit_broadcast);
         formItems.macEdit = (EditText)findViewById(R.id.edit_mac);
         formItems.portEdit = (EditText)findViewById(R.id.edit_port);
         formItems.ssidEdit = (EditText)findViewById(R.id.edit_ssid);
@@ -756,7 +752,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private class FormItems {
         // EditText
         EditText nameEdit;
-        EditText ipEdit;
+        EditText broadcastEdit;
         EditText macEdit;
         EditText portEdit;
         EditText ssidEdit;

@@ -76,7 +76,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
     private void setItemHolderTextValues(final int position, ItemHolder itemHolder) {
         DeviceModel device = mDevices.get(position);
         itemHolder.nameText.setText(device.getName());
-        itemHolder.ipText.setText(device.getBroadcast());
+        itemHolder.broadcastText.setText(device.getBroadcast());
         itemHolder.macText.setText(device.getMac());
         itemHolder.portText.setText("Port: " + device.getPort());
 
@@ -226,7 +226,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
     private ItemHolder createItemHolder(View itemView) {
         ItemHolder itemHolder = new ItemHolder();
         itemHolder.nameText = (TextView)itemView.findViewById(R.id.device_item_text_name);
-        itemHolder.ipText = (TextView)itemView.findViewById(R.id.device_item_txt_ip);
+        itemHolder.broadcastText = (TextView)itemView.findViewById(R.id.device_item_txt_broadcast);
         itemHolder.macText = (TextView)itemView.findViewById(R.id.device_item_txt_mac);
         itemHolder.portText = (TextView)itemView.findViewById(R.id.device_item_txt_port);
         itemHolder.ssidText = (TextView)itemView.findViewById(R.id.device_item_txt_ssid);
@@ -241,7 +241,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
      */
     private class ItemHolder {
         TextView nameText;
-        TextView ipText;
+        TextView broadcastText;
         TextView macText;
         TextView portText;
         TextView ssidText;

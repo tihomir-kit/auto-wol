@@ -53,13 +53,13 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
 
     /**
      * Creates a WOL network packet and sends it to the network.
-     * @param name      WOL device name.
-     * @param ip        Access point broadcast IP.
-     * @param mac       MAC address of the device to wake.
-     * @param port      WOL port to be used.
-     * @return          Success/exception message.
+     * @param name          WOL device name.
+     * @param broadcast     Access point broadcast IP/FQDN.
+     * @param mac           MAC address of the device to wake.
+     * @param port          WOL port to be used.
+     * @return              Success/exception message.
      */
-    private String Wake(String name, String ip, String mac, int port) {
+    private String Wake(String name, String broadcast, String mac, int port) {
         try {
             byte[] macBytes = getMacBytes(mac);
             byte[] bytes = new byte[6 + 16 * macBytes.length];
@@ -70,7 +70,7 @@ public class WolService extends AsyncTask<DeviceModel, Void, String> {
                 System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
             }
 
-            InetAddress address = InetAddress.getByName(ip);
+            InetAddress address = InetAddress.getByName(broadcast);
             DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address, port);
             DatagramSocket socket = new DatagramSocket();
             socket.send(packet);

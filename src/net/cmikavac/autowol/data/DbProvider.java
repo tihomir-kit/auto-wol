@@ -159,15 +159,38 @@ public class DbProvider extends DbConfiguration {
     /**
      * Handles database creation and upgrading.
      * Used to handle low-level database access.
-     */
+     */ 
     private static class DbHelper extends SQLiteOpenHelper {
         DbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         private static final Patch[] PATCHES = new Patch[] {
-            new Patch() { public void apply(SQLiteDatabase db) { Log.w("DB UPDATE", DATABASE_PATCH_SQL_V1); db.execSQL(DATABASE_PATCH_SQL_V1); } },
-            new Patch() { public void apply(SQLiteDatabase db) { Log.w("DB UPDATE", DATABASE_PATCH_SQL_V2); db.execSQL(DATABASE_PATCH_SQL_V2); } }
+            new Patch() { public void apply(SQLiteDatabase db) { 
+                Log.d("DB UPDATE", "Applying DB v1.1 patch"); 
+                db.execSQL(DATABASE_PATCH_SQL_V1_1); 
+            }},
+            new Patch() { public void apply(SQLiteDatabase db) {
+                Log.d("DB UPDATE", "Beginning transaction");
+                db.beginTransaction();
+
+                Log.d("DB UPDATE", "Applying DB v2.1 patch");
+                db.execSQL(DATABASE_PATCH_SQL_V2_1);
+
+                Log.d("DB UPDATE", "Applying DB v2.2 patch"); 
+                db.execSQL(DATABASE_PATCH_SQL_V2_2);
+
+                Log.d("DB UPDATE", "Applying DB v2.3 patch"); 
+                db.execSQL(DATABASE_PATCH_SQL_V2_3);
+
+                Log.d("DB UPDATE", "Applying DB v2.4 patch"); 
+                db.execSQL(DATABASE_PATCH_SQL_V2_4);
+
+                Log.d("DB UPDATE", "Transaction successful");
+                db.setTransactionSuccessful();
+                Log.d("DB UPDATE", "Ending transaction");
+                db.endTransaction();
+            }}
         };
 
         /**
@@ -176,9 +199,7 @@ public class DbProvider extends DbConfiguration {
          */
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.w("DB CREATE", DATABASE_CREATE_SQL); 
             db.execSQL(DATABASE_CREATE_SQL);
-            Log.w("DB CREATE", "Done.");
         }
 
         /**
@@ -189,7 +210,7 @@ public class DbProvider extends DbConfiguration {
          */
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading application's database from version " + oldVersion + " to " + newVersion);
+            Log.d(TAG, "Upgrading application's database from version " + oldVersion + " to " + newVersion);
 
             for (int i = oldVersion; i < newVersion; i++) {
                 PATCHES[i].apply(db);

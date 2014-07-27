@@ -43,19 +43,19 @@
             android:hint="@string/activity_device_edit_mac" />
 
         <TextView
-            android:id="@+id/text_ip"
+            android:id="@+id/text_broadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activity_device_text_ip"
+            android:text="@string/activity_device_text_broadcast"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
-            android:id="@+id/edit_ip"
+            android:id="@+id/edit_broadcast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/activity_device_edit_ip"
-            android:text="@string/activity_device_edit_ip" />
+            android:hint="@string/activity_device_edit_broadcast"
+            android:text="@string/activity_device_edit_broadcast" />
 
         <TextView
             android:id="@+id/text_port"
@@ -117,19 +117,17 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/activity_device_edit_ssid" />
-
                 </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btn_discover_ssid"
                     android:layout_width="48dip"
                     android:layout_height="48dip"
+                    android:layout_gravity="bottom"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:layout_gravity="bottom"
                     android:contentDescription="@string/activity_device_discover_ssid"
                     android:src="@drawable/ic_eye_on" />
-
             </LinearLayout>
 
             <Switch
@@ -154,9 +152,9 @@
                     android:id="@+id/layout_quiet_hours_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="100"
                     android:baselineAligned="true"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
 
                     <LinearLayout
                         android:id="@+id/layout_quiet_hours_from"
@@ -166,10 +164,10 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:orientation="vertical"
-                        android:paddingTop="4dip"
                         android:paddingBottom="4dip"
                         android:paddingLeft="4dip"
-                        android:paddingRight="4dip" >
+                        android:paddingRight="4dip"
+                        android:paddingTop="4dip" >
 
                         <TextView
                             android:id="@+id/text_quiet_hours_from_header"
@@ -200,10 +198,10 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:orientation="vertical"
-                        android:paddingTop="4dip"
                         android:paddingBottom="4dip"
                         android:paddingLeft="6dip"
-                        android:paddingRight="4dip" >
+                        android:paddingRight="4dip"
+                        android:paddingTop="4dip" >
 
                         <TextView
                             android:id="@+id/text_quiet_hours_to_header"
@@ -264,4 +262,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>
