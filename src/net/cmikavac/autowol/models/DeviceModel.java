@@ -7,7 +7,8 @@ public class DeviceModel implements Serializable {
     private Long mId;
     private String mName;
     private String mMac;
-    private String mIp;
+    private String mHost;
+    private String mBroadcast;
     private Integer mPort;
     private String mSSID;
     private Long mQuietHoursFrom;
@@ -20,12 +21,13 @@ public class DeviceModel implements Serializable {
         this.mId = (long)-1;
     }
     
-    public DeviceModel(String name, String mac, String ip, Integer port, String ssid, 
+    public DeviceModel(String name, String mac, String host, String broadcast, Integer port, String ssid, 
             Long quietHoursFrom, Long quietHoursTo, Integer idleTime) {
         super();
         this.mName = name;
         this.mMac = mac;
-        this.mIp = ip;
+        this.mHost = host;
+        this.mBroadcast = broadcast;
         this.mPort = port;
         this.mSSID = ssid;
         this.mQuietHoursFrom = quietHoursFrom;
@@ -33,13 +35,14 @@ public class DeviceModel implements Serializable {
         this.mIdleTime = idleTime;
     }
 
-    public DeviceModel(Long id, String name, String mac, String ip, Integer port, String ssid, 
+    public DeviceModel(Long id, String name, String mac, String host, String broadcast, Integer port, String ssid, 
             Long quietHoursFrom, Long quietHoursTo, Integer idleTime, Long lastDisconnected) {
         super();
         this.mId = id;
         this.mName = name;
         this.mMac = mac;
-        this.mIp = ip;
+        this.mHost = host;
+        this.mBroadcast = broadcast;
         this.mPort = port;
         this.mSSID = ssid;
         this.mQuietHoursFrom = quietHoursFrom;
@@ -68,16 +71,24 @@ public class DeviceModel implements Serializable {
         return mMac;
     }
 
-    public String getIp() {
-        return mIp;
-    }
-
-    public void setIp(String ip) {
-        this.mIp = ip;
-    }
-
     public void setMac(String mac) {
         this.mMac = mac;
+    }
+
+    public String getHost() {
+        return mHost;
+    }
+
+    public void setHost(String host) {
+        this.mHost = host;
+    }
+
+    public String getBroadcast() {
+        return mBroadcast;
+    }
+
+    public void setBroadcast(String broadcast) {
+        this.mBroadcast = broadcast;
     }
 
     public Integer getPort() {

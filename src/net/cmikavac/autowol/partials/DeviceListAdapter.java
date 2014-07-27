@@ -76,7 +76,7 @@ public class DeviceListAdapter extends ArrayAdapter<DeviceModel> {
     private void setItemHolderTextValues(final int position, ItemHolder itemHolder) {
         DeviceModel device = mDevices.get(position);
         itemHolder.nameText.setText(device.getName());
-        itemHolder.ipText.setText(device.getIp());
+        itemHolder.ipText.setText(device.getBroadcast());
         itemHolder.macText.setText(device.getMac());
         itemHolder.portText.setText("Port: " + device.getPort());
 

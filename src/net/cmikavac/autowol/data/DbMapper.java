@@ -37,7 +37,8 @@ public class DbMapper extends DbConfiguration {
                 cursor.getLong(COL_ROWID),
                 cursor.getString(COL_NAME),
                 cursor.getString(COL_MAC),
-                cursor.getString(COL_IP),
+                cursor.isNull(COL_HOST) ? "" : cursor.getString(COL_HOST), // otherwise null return 0
+                cursor.getString(COL_BROADCAST),
                 cursor.getInt(COL_PORT),
                 cursor.getString(COL_SSID),
                 cursor.isNull(COL_QUIET_FROM) ? null : cursor.getLong(COL_QUIET_FROM), // otherwise null return 0

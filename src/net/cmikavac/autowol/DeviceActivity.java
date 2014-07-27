@@ -514,8 +514,8 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
         mFormItems.nameEdit.setText(mDevice.getName());
         mFormItems.macEdit.setText(mDevice.getMac());
 
-        if (mDevice.getIp() != null) {
-            mFormItems.ipEdit.setText(mDevice.getIp());
+        if (mDevice.getBroadcast() != null) {
+            mFormItems.ipEdit.setText(mDevice.getBroadcast());
         }
 
         if (mDevice.getPort() != null) {
@@ -561,7 +561,7 @@ public class DeviceActivity extends BaseActivity implements OnTimePickedListener
     private void getFormValues() {
         mDevice.setName(mFormItems.nameEdit.getText().toString());
         mDevice.setMac(mFormItems.macEdit.getText().toString());
-        mDevice.setIp(mFormItems.ipEdit.getText().toString());
+        mDevice.setBroadcast(mFormItems.ipEdit.getText().toString());
         mDevice.setPort(Integer.parseInt(mFormItems.portEdit.getText().toString()));
 
         if (mFormItems.autoWakeSwitch.isChecked()) {

@@ -143,7 +143,8 @@ public class DbProvider extends DbConfiguration {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, device.getName());
         values.put(KEY_MAC, device.getMac());
-        values.put(KEY_IP, device.getIp());
+        values.put(KEY_HOST, device.getHost());
+        values.put(KEY_BROADCAST, device.getBroadcast());
         values.put(KEY_PORT, device.getPort());
         values.put(KEY_SSID, device.getSSID());
         values.put(KEY_QUIET_FROM, device.getQuietHoursFrom());
@@ -164,13 +165,20 @@ public class DbProvider extends DbConfiguration {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        private static final Patch[] PATCHES = new Patch[] {
+            new Patch() { public void apply(SQLiteDatabase db) { Log.w("DB UPDATE", DATABASE_PATCH_SQL_V1); db.execSQL(DATABASE_PATCH_SQL_V1); } },
+            new Patch() { public void apply(SQLiteDatabase db) { Log.w("DB UPDATE", DATABASE_PATCH_SQL_V2); db.execSQL(DATABASE_PATCH_SQL_V2); } }
+        };
+
         /**
          * Creates an empty SQL table for the application.
          * @param db        SQLiteDatabase entity.
          */
         @Override
         public void onCreate(SQLiteDatabase db) {
+            Log.w("DB CREATE", DATABASE_CREATE_SQL); 
             db.execSQL(DATABASE_CREATE_SQL);
+            Log.w("DB CREATE", "Done.");
         }
 
         /**
@@ -181,14 +189,19 @@ public class DbProvider extends DbConfiguration {
          */
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading application's database from version " + oldVersion
-                + " to " + newVersion + ", which will destroy all old data!");
+            Log.w(TAG, "Upgrading application's database from version " + oldVersion + " to " + newVersion);
 
-            // Destroy old database:
-            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+            for (int i = oldVersion; i < newVersion; i++) {
+                PATCHES[i].apply(db);
+            }
+        }
 
-            // Recreate new database:
-            onCreate(db);
+        /**
+         * @see http://www.greenmoonsoftware.com/2012/02/sqlite-schema-migration-in-android/
+         */
+        private static class Patch {
+            public void apply(SQLiteDatabase db) {}
+            //public void revert(SQLiteDatabase db) {} // not needed ATM
         }
     }
 }
