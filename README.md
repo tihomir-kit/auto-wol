@@ -9,6 +9,7 @@ A simple android Wake-on-Lan application which can wake your device up automatic
 * quiet-hours (period during which automatic WOL will be suppressed)
 * idle-time (period from last Wi-Fi disconnect during which automatic WOL will be suppresed)
 * auto SSID discovery
+* FQDN WOL broadcast support
 * Auto-WOL notifications
 
 ## Future releases:
