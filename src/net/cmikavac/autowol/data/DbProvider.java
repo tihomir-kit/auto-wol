@@ -165,6 +165,9 @@ public class DbProvider extends DbConfiguration {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        /**
+         * Array of patches to be applied on DB upgrade.
+         */
         private static final Patch[] PATCHES = new Patch[] {
             new Patch() { public void apply(SQLiteDatabase db) { 
                 Log.d("DB UPDATE", "Applying DB v1.1 patch"); 
